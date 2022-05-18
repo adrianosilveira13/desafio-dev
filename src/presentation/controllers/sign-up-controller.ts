@@ -1,4 +1,4 @@
-import { Validation } from '@/tests/presentation/controllers/sigup-controller.spec'
+import { Validation } from '@/presentation/protocols'
 
 export class SignUpController {
   constructor (private readonly validation: Validation) {}

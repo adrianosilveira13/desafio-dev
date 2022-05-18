@@ -1,8 +1,5 @@
-import { SignUpController } from '@/presentation/controllers/sign-up-controller'
-
-export interface Validation {
-  validate: (input: any) => Error
-}
+import { SignUpController } from '@/presentation/controllers'
+import { Validation } from '@/presentation/protocols'
 
 export class ValidationSpy implements Validation {
   error: Error = null
