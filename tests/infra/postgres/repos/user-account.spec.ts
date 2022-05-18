@@ -53,4 +53,13 @@ describe('PgUserAccountRepository', () => {
       expect(success).toBe(true)
     })
   })
+
+  describe('checkByEmail()', () => {
+    it('Should return true if email exists', async () => {
+      const addAccountParams = mockAddAccountParams()
+      await pgUserRepo.save(addAccountParams)
+      const exists = await sut.checkByEmail(addAccountParams.email)
+      expect(exists).toBe(true)
+    })
+  })
 })
