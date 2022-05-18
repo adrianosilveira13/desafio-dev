@@ -2,6 +2,7 @@ import { SignUpController } from '@/presentation/controllers'
 import { ValidationSpy, AddAccountSpy } from '@/tests/presentation/mocks'
 import { badRequest, forbbiden } from '@/presentation/helpers/http-helper'
 import { EmailInUseError } from '@/presentation/errors'
+import { throwError } from '@/tests/domain/mocks'
 import faker from '@faker-js/faker'
 
 const mockRequest = (): SignUpController.HttpRequest => {
@@ -62,5 +63,15 @@ describe('SignUp Controller', () => {
     addAccountSpy.result = false
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbbiden(new EmailInUseError()))
+  })
+
+  it('Should return 500 if AddAccount thorws', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(throwError)
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual({
+      statusCode: 500,
+      body: new Error()
+    })
   })
 })
