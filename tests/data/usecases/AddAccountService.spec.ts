@@ -1,5 +1,6 @@
 import { AddAccountService } from '@/data/usecases'
 import { CheckAccountByEmailRepositorySpy } from '@/tests/data/mocks'
+import { mockAddAccountParams } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: AddAccountService
@@ -18,11 +19,8 @@ const makeSut = (): SutTypes => {
 describe('AddAccountService', () => {
   it('Should call CheckAccountByEmailRepository with correct value', async () => {
     const { sut, checkAccountByEmailRepositorySpy } = makeSut()
-    await sut.add({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
-    expect(checkAccountByEmailRepositorySpy.email).toBe('any_email@mail.com')
+    const params = mockAddAccountParams()
+    await sut.add(params)
+    expect(checkAccountByEmailRepositorySpy.email).toBe(params.email)
   })
 })
