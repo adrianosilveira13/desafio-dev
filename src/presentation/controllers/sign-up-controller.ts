@@ -1,16 +1,12 @@
 import { Validation, HttpResponse } from '@/presentation/protocols'
+import { badRequest } from '../helpers'
 
 export class SignUpController {
   constructor (private readonly validation: Validation) {}
 
   async handle (request: SignUpController.HttpRequest): Promise<HttpResponse> {
     const error = this.validation.validate(request)
-    if (error) {
-      return {
-        statusCode: 400,
-        body: {}
-      }
-    }
+    if (error) return badRequest(error)
   }
 }
 

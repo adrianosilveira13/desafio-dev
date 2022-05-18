@@ -1,6 +1,7 @@
 import { SignUpController } from '@/presentation/controllers'
 import { ValidationSpy } from '@/tests/presentation/mocks'
 import faker from '@faker-js/faker'
+import { badRequest } from '@/presentation/helpers/http-helper'
 
 const mockRequest = (): SignUpController.HttpRequest => {
   const password = faker.internet.password()
@@ -38,6 +39,6 @@ describe('SignUp Controller', () => {
     const { sut, validationSpy } = makeSut()
     validationSpy.error = new Error()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
 })
