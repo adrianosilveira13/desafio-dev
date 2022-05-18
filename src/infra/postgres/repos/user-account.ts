@@ -1,8 +1,8 @@
-import { AddAccountRepository } from '@/data/protocols/db'
+import { AddAccountRepository, CheckAccountByEmailRepository } from '@/data/protocols/db'
 import { getRepository } from 'typeorm'
 import { PgUser } from '@/infra/postgres/entities'
 
-export class PgUserAccountRepository implements AddAccountRepository {
+export class PgUserAccountRepository implements AddAccountRepository, CheckAccountByEmailRepository {
   async add (data: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     const pgUserRepo = getRepository(PgUser)
     const account = await pgUserRepo.save({
@@ -10,6 +10,12 @@ export class PgUserAccountRepository implements AddAccountRepository {
       email: data.email,
       password: data.password
     })
-    return account !== null
+    return account !== undefined
+  }
+
+  async checkByEmail (email: string): Promise<boolean> {
+    const pgUserRepo = getRepository(PgUser)
+    const account = await pgUserRepo.findOne({ email })
+    return account !== undefined
   }
 }
