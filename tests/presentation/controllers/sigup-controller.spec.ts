@@ -1,3 +1,5 @@
+import { SignUpController } from '@/presentation/controllers/sign-up-controller'
+
 export interface Validation {
   validate: (input: any) => Error
 }
@@ -9,14 +11,6 @@ export class ValidationSpy implements Validation {
   validate (input: any): Error {
     this.input = input
     return this.error
-  }
-}
-
-class SignUpController {
-  constructor (private readonly validation: Validation) {}
-
-  async handle (request: any): Promise<any> {
-    this.validation.validate(request)
   }
 }
 
