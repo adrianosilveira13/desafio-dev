@@ -1,16 +1,35 @@
 import { SignUpController } from '@/presentation/controllers'
 import { ValidationSpy } from '@/tests/presentation/mocks'
+import faker from '@faker-js/faker'
+
+const mockRequest = (): SignUpController.HttpRequest => {
+  const password = faker.internet.password()
+  return {
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    password,
+    passwordConfirmation: password
+  }
+}
+
+type SutTypes = {
+  sut: SignUpController
+  validationSpy: ValidationSpy
+}
+
+const makeSut = (): SutTypes => {
+  const validationSpy = new ValidationSpy()
+  const sut = new SignUpController(validationSpy)
+  return {
+    sut,
+    validationSpy
+  }
+}
 
 describe('SignUp Controller', () => {
   it('Should call Validation with correct values', async () => {
-    const validationSpy = new ValidationSpy()
-    const sut = new SignUpController(validationSpy)
-    const request = {
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password',
-      passwordConfirmation: 'any_password'
-    }
+    const { sut, validationSpy } = makeSut()
+    const request = mockRequest()
     await sut.handle(request)
     expect(validationSpy.input).toEqual(request)
   })
