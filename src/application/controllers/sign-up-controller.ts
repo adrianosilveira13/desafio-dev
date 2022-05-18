@@ -1,9 +1,9 @@
 import { AddAccount, Authentication } from '@/domain/usecases'
 import { badRequest, forbbiden, ok, serverError } from '@/application/helpers'
-import { Validation, HttpResponse } from '@/application/protocols'
+import { Validation, HttpResponse, Controller } from '@/application/protocols'
 import { EmailInUseError } from '@/application/errors'
 
-export class SignUpController {
+export class SignUpController implements Controller {
   constructor (
     private readonly validation: Validation,
     private readonly addAccount: AddAccount,
