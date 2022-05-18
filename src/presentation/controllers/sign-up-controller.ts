@@ -1,5 +1,5 @@
 import { AddAccount } from '@/domain/add-account'
-import { badRequest } from '@/presentation/helpers'
+import { badRequest, forbbiden } from '@/presentation/helpers'
 import { Validation, HttpResponse } from '@/presentation/protocols'
 
 export class SignUpController {
@@ -19,12 +19,7 @@ export class SignUpController {
       password
     })
 
-    if (!isValid) {
-      return {
-        statusCode: 403,
-        body: new Error()
-      }
-    }
+    if (!isValid) return forbbiden(new Error())
   }
 }
 
