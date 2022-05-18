@@ -1,7 +1,7 @@
-import { SignUpController } from '@/presentation/controllers'
-import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
-import { badRequest, forbbiden, ok, serverError } from '@/presentation/helpers/http-helper'
-import { EmailInUseError, ServerError } from '@/presentation/errors'
+import { SignUpController } from '@/application/controllers'
+import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/application/mocks'
+import { badRequest, forbbiden, ok, serverError } from '@/application/helpers/http-helper'
+import { EmailInUseError, ServerError } from '@/application/errors'
 import { throwError } from '@/tests/domain/mocks'
 import faker from '@faker-js/faker'
 
