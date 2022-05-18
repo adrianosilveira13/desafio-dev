@@ -1,6 +1,6 @@
 import { SignUpController } from '@/presentation/controllers'
 import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
-import { badRequest, forbbiden, serverError } from '@/presentation/helpers/http-helper'
+import { badRequest, forbbiden, ok, serverError } from '@/presentation/helpers/http-helper'
 import { EmailInUseError, ServerError } from '@/presentation/errors'
 import { throwError } from '@/tests/domain/mocks'
 import faker from '@faker-js/faker'
@@ -95,9 +95,6 @@ describe('SignUp Controller', () => {
   it('Should return 200 if valid data is provided', async () => {
     const { sut, authenticationSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual({
-      statusCode: 200,
-      body: authenticationSpy.authenticationModel
-    })
+    expect(httpResponse).toEqual(ok(authenticationSpy.authenticationModel))
   })
 })

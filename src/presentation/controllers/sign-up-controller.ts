@@ -1,5 +1,5 @@
 import { AddAccount, Authentication } from '@/domain/usecases'
-import { badRequest, forbbiden, serverError } from '@/presentation/helpers'
+import { badRequest, forbbiden, ok, serverError } from '@/presentation/helpers'
 import { Validation, HttpResponse } from '@/presentation/protocols'
 import { EmailInUseError } from '@/presentation/errors'
 
@@ -25,10 +25,7 @@ export class SignUpController {
       if (!isValid) return forbbiden(new EmailInUseError())
 
       const authenticationModel = await this.authentication.auth({ email, password })
-      return {
-        statusCode: 200,
-        body: authenticationModel
-      }
+      return ok(authenticationModel)
     } catch (error) {
       return serverError(error)
     }
