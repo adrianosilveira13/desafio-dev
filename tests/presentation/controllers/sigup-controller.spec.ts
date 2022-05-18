@@ -1,15 +1,5 @@
 import { SignUpController } from '@/presentation/controllers'
-import { Validation } from '@/presentation/protocols'
-
-export class ValidationSpy implements Validation {
-  error: Error = null
-  input: any
-
-  validate (input: any): Error {
-    this.input = input
-    return this.error
-  }
-}
+import { ValidationSpy } from '@/tests/presentation/mocks'
 
 describe('SignUp Controller', () => {
   it('Should call Validation with correct values', async () => {
