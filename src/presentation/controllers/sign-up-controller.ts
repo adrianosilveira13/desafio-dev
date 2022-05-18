@@ -13,11 +13,18 @@ export class SignUpController {
     if (error) return badRequest(error)
 
     const { name, email, password } = request
-    await this.addAccount.add({
+    const isValid = await this.addAccount.add({
       name,
       email,
       password
     })
+
+    if (!isValid) {
+      return {
+        statusCode: 403,
+        body: new Error()
+      }
+    }
   }
 }
 
