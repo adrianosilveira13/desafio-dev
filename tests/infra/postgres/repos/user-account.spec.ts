@@ -45,5 +45,12 @@ describe('PgUserAccountRepository', () => {
       const pgUser = await pgUserRepo.findOne({ email: accountParams.email })
       expect(pgUser?.id).toBe(1)
     })
+
+    it('Should return true on success', async () => {
+      const accountParams = mockAddAccountParams()
+      await pgUserRepo.findOne({ email: accountParams.email })
+      const success = await sut.add(accountParams)
+      expect(success).toBe(true)
+    })
   })
 })
