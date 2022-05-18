@@ -91,4 +91,13 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new ServerError(null)))
   })
+
+  it('Should return 200 if valid data is provided', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: authenticationSpy.authenticationModel
+    })
+  })
 })

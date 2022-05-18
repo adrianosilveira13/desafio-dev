@@ -24,7 +24,11 @@ export class SignUpController {
 
       if (!isValid) return forbbiden(new EmailInUseError())
 
-      await this.authentication.auth({ email, password })
+      const authenticationModel = await this.authentication.auth({ email, password })
+      return {
+        statusCode: 200,
+        body: authenticationModel
+      }
     } catch (error) {
       return serverError(error)
     }
