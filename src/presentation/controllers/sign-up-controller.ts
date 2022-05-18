@@ -1,6 +1,7 @@
 import { AddAccount } from '@/domain/add-account'
 import { badRequest, forbbiden } from '@/presentation/helpers'
 import { Validation, HttpResponse } from '@/presentation/protocols'
+import { EmailInUseError } from '@/presentation/errors'
 
 export class SignUpController {
   constructor (
@@ -19,7 +20,7 @@ export class SignUpController {
       password
     })
 
-    if (!isValid) return forbbiden(new Error())
+    if (!isValid) return forbbiden(new EmailInUseError())
   }
 }
 

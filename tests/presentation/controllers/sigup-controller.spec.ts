@@ -1,6 +1,7 @@
 import { SignUpController } from '@/presentation/controllers'
 import { ValidationSpy, AddAccountSpy } from '@/tests/presentation/mocks'
 import { badRequest, forbbiden } from '@/presentation/helpers/http-helper'
+import { EmailInUseError } from '@/presentation/errors'
 import faker from '@faker-js/faker'
 
 const mockRequest = (): SignUpController.HttpRequest => {
@@ -60,6 +61,6 @@ describe('SignUp Controller', () => {
     const { sut, addAccountSpy } = makeSut()
     addAccountSpy.result = false
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(forbbiden(new Error()))
+    expect(httpResponse).toEqual(forbbiden(new EmailInUseError()))
   })
 })
