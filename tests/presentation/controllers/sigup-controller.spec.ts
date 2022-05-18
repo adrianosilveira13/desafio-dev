@@ -55,4 +55,14 @@ describe('SignUp Controller', () => {
       password: request.password
     })
   })
+
+  it('Should return 403 if AddAccount returns false', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    addAccountSpy.result = false
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual({
+      statusCode: 403,
+      body: new Error()
+    })
+  })
 })
