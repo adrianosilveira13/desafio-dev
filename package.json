@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/adrianosilveira13/desafio-dev/issues"
   },
-  "homepage": "https://github.com/adrianosilveira13/desafio-dev#readme"
+  "homepage": "https://github.com/adrianosilveira13/desafio-dev#readme",
+  "devDependencies": {
+    "git-commit-msg-linter": "^4.1.2"
+  }
 }
