@@ -54,4 +54,11 @@ describe('AddAccountService', () => {
       password: hasherSpy.digest
     })
   })
+
+  it('Should return false if AddAccountRepository returns true', async () => {
+    const { sut, addAccountRepositorySpy } = makeSut()
+    addAccountRepositorySpy.result = false
+    const isValid = await sut.add(mockAddAccountParams())
+    expect(isValid).toBe(false)
+  })
 })
