@@ -33,4 +33,11 @@ describe('SignUp Controller', () => {
     await sut.handle(request)
     expect(validationSpy.input).toEqual(request)
   })
+
+  it('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationSpy } = makeSut()
+    validationSpy.error = new Error()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse.statusCode).toBe(400)
+  })
 })
