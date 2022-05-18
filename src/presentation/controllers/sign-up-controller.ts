@@ -1,5 +1,5 @@
 import { AddAccount } from '@/domain/add-account'
-import { badRequest, forbbiden } from '@/presentation/helpers'
+import { badRequest, forbbiden, serverError } from '@/presentation/helpers'
 import { Validation, HttpResponse } from '@/presentation/protocols'
 import { EmailInUseError } from '@/presentation/errors'
 
@@ -23,10 +23,7 @@ export class SignUpController {
 
       if (!isValid) return forbbiden(new EmailInUseError())
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: error
-      }
+      return serverError(error)
     }
   }
 }
