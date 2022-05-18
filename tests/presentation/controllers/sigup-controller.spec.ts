@@ -1,5 +1,5 @@
 import { SignUpController } from '@/presentation/controllers'
-import { ValidationSpy, AddAccountSpy } from '@/tests/presentation/mocks'
+import { ValidationSpy, AddAccountSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { badRequest, forbbiden, serverError } from '@/presentation/helpers/http-helper'
 import { EmailInUseError, ServerError } from '@/presentation/errors'
 import { throwError } from '@/tests/domain/mocks'
@@ -19,16 +19,19 @@ type SutTypes = {
   sut: SignUpController
   validationSpy: ValidationSpy
   addAccountSpy: AddAccountSpy
+  authenticationSpy: AuthenticationSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
   const addAccountSpy = new AddAccountSpy()
-  const sut = new SignUpController(validationSpy, addAccountSpy)
+  const authenticationSpy = new AuthenticationSpy()
+  const sut = new SignUpController(validationSpy, addAccountSpy, authenticationSpy)
   return {
     sut,
     validationSpy,
-    addAccountSpy
+    addAccountSpy,
+    authenticationSpy
   }
 }
 
@@ -70,5 +73,15 @@ describe('SignUp Controller', () => {
     jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new ServerError(null)))
+  })
+
+  it('Should call Authentication with correct values', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(authenticationSpy.authenticationParams).toEqual({
+      email: request.email,
+      password: request.password
+    })
   })
 })
