@@ -61,4 +61,10 @@ describe('AddAccountService', () => {
     const isValid = await sut.add(mockAddAccountParams())
     expect(isValid).toBe(false)
   })
+
+  it('Should return true on success', async () => {
+    const { sut } = makeSut()
+    const isValid = await sut.add(mockAddAccountParams())
+    expect(isValid).toBe(true)
+  })
 })
