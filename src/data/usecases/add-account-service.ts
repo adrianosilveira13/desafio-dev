@@ -11,10 +11,11 @@ export class AddAccountService implements AddAccount {
 
   async add (accountData: AddAccount.Params): Promise<AddAccount.Result> {
     const exists = await this.checkAccountByEmailRepository.checkByEmail(accountData.email)
+    let isValid = false
     if (!exists) {
       const hashedPassword = await this.hasher.hash(accountData.password)
-      await this.addAccountRepository.add({ ...accountData, password: hashedPassword })
+      isValid = await this.addAccountRepository.add({ ...accountData, password: hashedPassword })
     }
-    return !exists
+    return isValid
   }
 }
