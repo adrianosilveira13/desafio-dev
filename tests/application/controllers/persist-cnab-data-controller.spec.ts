@@ -17,15 +17,25 @@ export namespace PersistCNABDataController {
   }
 }
 
+type CNAB = {
+  type: number,
+  date: Date,
+  amount: number,
+  document: number,
+  card: string
+  owner: string
+  storeName: string
+}
+
 interface ParseCNAB {
-  parse (data: Buffer): string[]
+  parse (data: Buffer): CNAB
 }
 
 class ParseCNABSpy implements ParseCNAB {
   buffer: Buffer
-  result: []
+  result: CNAB
 
-  parse (data: Buffer): string[] {
+  parse (data: Buffer): CNAB {
     this.buffer = data
     return this.result
   }
