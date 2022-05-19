@@ -41,4 +41,11 @@ describe('AuthenticationService Usecase', () => {
     expect(hashComparerSpy.plaintext).toBe(authenticationParams.password)
     expect(hashComparerSpy.digest).toBe(loadAccountByEmailRepositorySpy.result.password)
   })
+
+  it('Should return null if HashComparer returns false', async () => {
+    const { sut, hashComparerSpy } = makeSut()
+    hashComparerSpy.isValid = false
+    const model = await sut.auth(mockAuthenticationParams())
+    expect(model).toBeNull()
+  })
 })
