@@ -2,6 +2,8 @@ import { ParseCNABSpy } from '@/tests/ultils/mocks'
 import { PersistCNABDataController } from '@/application/controllers'
 import { ValidationSpy } from '@/tests/application/mocks'
 import { badRequest } from '@/application/helpers'
+import { mockCNAB } from '@/tests/domain/mocks'
+import { PersistCNABServiceSpy } from '@/tests/data/mocks'
 
 const mockRequest = (): PersistCNABDataController.HttpRequest => ({
   file: {
@@ -13,17 +15,20 @@ const mockRequest = (): PersistCNABDataController.HttpRequest => ({
 type SutTypes = {
   sut: PersistCNABDataController
   validationSpy: ValidationSpy
-  parseCNABSpy: ParseCNABSpy
+  parseCNABSpy: ParseCNABSpy,
+  persistCNABServiceSpy: PersistCNABServiceSpy
 }
 
 const makeSut = (): SutTypes => {
   const parseCNABSpy = new ParseCNABSpy()
   const validationSpy = new ValidationSpy()
-  const sut = new PersistCNABDataController(validationSpy, parseCNABSpy)
+  const persistCNABServiceSpy = new PersistCNABServiceSpy()
+  const sut = new PersistCNABDataController(validationSpy, parseCNABSpy, persistCNABServiceSpy)
   return {
     sut,
     validationSpy,
-    parseCNABSpy
+    parseCNABSpy,
+    persistCNABServiceSpy
   }
 }
 
@@ -47,5 +52,12 @@ describe('PersistCNABData Controller', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(parseCNABSpy.buffer).toBe(request.file.buffer)
+  })
+
+  it('Should call PersistCNABService with correct value', async () => {
+    const { sut, parseCNABSpy, persistCNABServiceSpy } = makeSut()
+    parseCNABSpy.result = mockCNAB()
+    await sut.handle(mockRequest())
+    expect(persistCNABServiceSpy.data).toEqual(parseCNABSpy.result)
   })
 })
