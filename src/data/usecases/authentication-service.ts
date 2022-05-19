@@ -1,12 +1,13 @@
 import { Authentication } from '@/domain/usecases'
 import { Encrypter, HashComparer } from '@/data/protocols/criptography'
-import { LoadAccountByEmailRepository } from '@/data/protocols/db'
+import { LoadAccountByEmailRepository, UpdateAccessTokenRepository } from '@/data/protocols/db'
 
 export class AuthenticationService implements Authentication {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hashComparer: HashComparer,
-    private readonly encrypter: Encrypter
+    private readonly encrypter: Encrypter,
+    private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
   async auth (authenticationParams: Authentication.Params): Promise<Authentication.Result> {
@@ -14,7 +15,8 @@ export class AuthenticationService implements Authentication {
     if (account) {
       const isValid = await this.hashComparer.compare(authenticationParams.password, account.password)
       if (isValid) {
-        await this.encrypter.encrypt(account.id)
+        const accessToken = await this.encrypter.encrypt(account.id)
+        await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
         return {
           accessToken: 'any_token',
           name: 'any_name'
