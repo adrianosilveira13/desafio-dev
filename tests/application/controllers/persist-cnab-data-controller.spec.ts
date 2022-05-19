@@ -1,7 +1,7 @@
 import { ParseCNABSpy } from '@/tests/ultils/mocks'
 import { PersistCNABDataController } from '@/application/controllers'
 import { ValidationSpy } from '@/tests/application/mocks'
-import { badRequest } from '@/application/helpers'
+import { badRequest, serverError } from '@/application/helpers'
 import { mockCNAB } from '@/tests/domain/mocks'
 import { PersistCNABServiceSpy } from '@/tests/data/mocks'
 
@@ -59,5 +59,12 @@ describe('PersistCNABData Controller', () => {
     parseCNABSpy.result = mockCNAB()
     await sut.handle(mockRequest())
     expect(persistCNABServiceSpy.data).toEqual(parseCNABSpy.result)
+  })
+
+  it('Should return 500 if PersistCNABService fails', async () => {
+    const { sut, persistCNABServiceSpy } = makeSut()
+    jest.spyOn(persistCNABServiceSpy, 'persist').mockRejectedValueOnce(new Error())
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(serverError(new Error()))
   })
 })
