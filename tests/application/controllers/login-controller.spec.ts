@@ -1,6 +1,8 @@
 import { LoginController } from '@/application/controllers'
 import { AuthenticationSpy, ValidationSpy } from '@/tests/application/mocks'
-import { badRequest, ok, unauthorized } from '@/application/helpers'
+import { badRequest, ok, serverError, unauthorized } from '@/application/helpers'
+import { throwError } from '@/tests/domain/mocks'
+import { ServerError } from '@/application/errors'
 import faker from '@faker-js/faker'
 
 const mockRequest = (): LoginController.HttpRequest => {
@@ -51,6 +53,13 @@ describe('Login Controller', () => {
       email: request.email,
       password: request.password
     })
+  })
+
+  it('Should return 500 if Authentication throw', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
+    const httpReponse = await sut.handle(mockRequest())
+    expect(httpReponse).toEqual(serverError(new ServerError(null)))
   })
 
   it('Should return 401 if invalid credentials are provided', async () => {
