@@ -1,21 +1,36 @@
 import { ParseCNABSpy } from '@/tests/ultils/mocks'
 import { PersistCNABDataController } from '@/application/controllers'
+import { ValidationSpy } from '@/tests/application/mocks'
 
 type SutTypes = {
   sut: PersistCNABDataController
+  validationSpy: ValidationSpy
   parseCNABSpy: ParseCNABSpy
 }
 
 const makeSut = (): SutTypes => {
   const parseCNABSpy = new ParseCNABSpy()
-  const sut = new PersistCNABDataController(parseCNABSpy)
+  const validationSpy = new ValidationSpy()
+  const sut = new PersistCNABDataController(validationSpy, parseCNABSpy)
   return {
     sut,
+    validationSpy,
     parseCNABSpy
   }
 }
 
 describe('PersistCNABData Controller', () => {
+  it('Should call Validation with correct value', async () => {
+    const { sut, validationSpy } = makeSut()
+    const request = {
+      file: {
+        buffer: Buffer.from('any_buffer')
+      }
+    }
+    await sut.handle(request)
+    expect(validationSpy.input).toBe(request.file.buffer)
+  })
+
   it('Should call ParseCNAB with correct value', async () => {
     const { sut, parseCNABSpy } = makeSut()
     const request = {
