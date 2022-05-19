@@ -22,6 +22,7 @@
         "no-useless-constructor": "off",
         "@typescript-eslint/no-namespace": "off",
         "import/export": "off",
-        "no-redeclare": "off"
+        "no-redeclare": "off",
+        "no-use-before-define": "off"
     }
 }
