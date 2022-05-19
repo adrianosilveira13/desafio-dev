@@ -1,8 +1,8 @@
-import { AddAccountRepository, CheckAccountByEmailRepository, LoadAccountByEmailRepository } from '@/data/protocols/db'
+import { AddAccountRepository, CheckAccountByEmailRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository } from '@/data/protocols/db'
 import { getRepository } from 'typeorm'
 import { PgUser } from '@/infra/postgres/entities'
 
-export class PgUserAccountRepository implements AddAccountRepository, CheckAccountByEmailRepository, LoadAccountByEmailRepository {
+export class PgUserAccountRepository implements AddAccountRepository, CheckAccountByEmailRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository {
   async add (data: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     const pgUserRepo = getRepository(PgUser)
     const account = await pgUserRepo.save({
@@ -28,5 +28,14 @@ export class PgUserAccountRepository implements AddAccountRepository, CheckAccou
       name: account.name,
       password: account.password
     }
+  }
+
+  async updateAccessToken (id: string, token: string): Promise<void> {
+    const pgUserRepo = getRepository(PgUser)
+    await pgUserRepo.update({
+      id: parseInt(id)
+    }, {
+      accessToken: token
+    })
   }
 }
