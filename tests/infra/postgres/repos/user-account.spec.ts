@@ -3,6 +3,7 @@ import { PgUserAccountRepository } from '@/infra/postgres/repos'
 import { PgUser } from '@/infra/postgres/entities'
 import { IBackup, newDb } from 'pg-mem'
 import { getRepository, Repository } from 'typeorm'
+import faker from '@faker-js/faker'
 
 describe('PgUserAccountRepository', () => {
   let sut: PgUserAccountRepository
@@ -60,6 +61,23 @@ describe('PgUserAccountRepository', () => {
       await pgUserRepo.save(addAccountParams)
       const exists = await sut.checkByEmail(addAccountParams.email)
       expect(exists).toBe(true)
+    })
+  })
+
+  describe('loadByEmail()', () => {
+    it('Should return an Account on success', async () => {
+      const addAccountParams = mockAddAccountParams()
+      await pgUserRepo.save(addAccountParams)
+      const account = await sut.loadByEmail(addAccountParams.email)
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(addAccountParams.name)
+      expect(account.password).toBe(addAccountParams.password)
+    })
+
+    it('Should return null if loadByEmail fails', async () => {
+      const account = await sut.loadByEmail(faker.internet.email())
+      expect(account).toBeFalsy()
     })
   })
 })
