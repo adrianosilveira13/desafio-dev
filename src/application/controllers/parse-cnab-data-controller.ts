@@ -11,10 +11,9 @@ export class PersistCNABDataController implements Controller {
 
   async handle (request: PersistCNABDataController.HttpRequest): Promise<HttpResponse> {
     try {
-      const buffer = request.file.buffer
-      const error = this.validation.validate(buffer)
+      const error = this.validation.validate(request)
       if (error) return badRequest(error)
-      const validCNAB = this.parseCNAB.parse(buffer)
+      const validCNAB = this.parseCNAB.parse(request.file.buffer)
       await this.persititCNAB.persist(validCNAB)
       return noContent()
     } catch (error) {

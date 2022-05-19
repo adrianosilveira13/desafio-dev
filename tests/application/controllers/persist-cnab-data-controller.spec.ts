@@ -35,9 +35,8 @@ const makeSut = (): SutTypes => {
 describe('PersistCNABData Controller', () => {
   it('Should call Validation with correct value', async () => {
     const { sut, validationSpy } = makeSut()
-    const request = mockRequest()
-    await sut.handle(request)
-    expect(validationSpy.input).toBe(request.file.buffer)
+    await sut.handle(mockRequest())
+    expect(validationSpy.input).toEqual(mockRequest())
   })
 
   it('Should return 400 if Validation returns an error', async () => {
