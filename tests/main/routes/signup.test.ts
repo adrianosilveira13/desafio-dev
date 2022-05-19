@@ -45,8 +45,9 @@ describe('SignUp Routes', () => {
           password: 'any_password',
           passwordConfirmation: 'any_password'
         })
+      console.log(body)
       expect(status).toBe(200)
-      expect(body.accessToken).toBeTruthy()
+      expect(body.accesstoken).toBeTruthy()
     })
   })
 })

@@ -15,10 +15,10 @@ export class AuthenticationService implements Authentication {
     if (account) {
       const isValid = await this.hashComparer.compare(authenticationParams.password, account.password)
       if (isValid) {
-        const accessToken = await this.encrypter.encrypt(account.id)
-        await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
+        const accesstoken = await this.encrypter.encrypt(account.id)
+        await this.updateAccessTokenRepository.updateAccessToken(account.id, accesstoken)
         return {
-          accessToken,
+          accesstoken,
           name: account.name
         }
       }

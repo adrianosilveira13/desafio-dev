@@ -35,7 +35,7 @@ export class PgUserAccountRepository implements AddAccountRepository, CheckAccou
     await pgUserRepo.update({
       id: parseInt(id)
     }, {
-      accessToken: token
+      accesstoken: token
     })
   }
 }

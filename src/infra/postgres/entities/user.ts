@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity({ name: 'users' })
 export class PgUser {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
     id!: number
 
   @Column()
@@ -15,5 +15,5 @@ export class PgUser {
     password: string
 
   @Column({ nullable: true })
-    accessToken?: string
+    accesstoken?: string
 }

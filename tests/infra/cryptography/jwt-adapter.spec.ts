@@ -26,8 +26,8 @@ describe('Jwt Adapter', () => {
 
     it('Should return a token on sign success', async () => {
       const sut = makeSut()
-      const accessToken = await sut.encrypt('any_id')
-      expect(accessToken).toBe('any_token')
+      const accesstoken = await sut.encrypt('any_id')
+      expect(accesstoken).toBe('any_token')
     })
 
     it('Should throw if sign throws', async () => {
