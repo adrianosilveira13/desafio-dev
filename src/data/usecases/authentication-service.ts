@@ -11,10 +11,12 @@ export class AuthenticationService implements Authentication {
   async auth (authenticationParams: Authentication.Params): Promise<Authentication.Result> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(authenticationParams.email)
     if (account) {
-      await this.hashComparer.compare(authenticationParams.password, account.password)
-      return {
-        accessToken: 'any_token',
-        name: 'any_name'
+      const isValid = await this.hashComparer.compare(authenticationParams.password, account.password)
+      if (isValid) {
+        return {
+          accessToken: 'any_token',
+          name: 'any_name'
+        }
       }
     }
     return null
