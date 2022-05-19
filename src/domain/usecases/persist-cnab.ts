@@ -5,6 +5,6 @@ export interface PersistCNAB {
 }
 
 export namespace PersistCNAB {
-  export type Params = CNAB
+  export type Params = CNAB[]
   export type Result = boolean
 }

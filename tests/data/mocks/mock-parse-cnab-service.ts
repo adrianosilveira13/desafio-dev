@@ -2,10 +2,11 @@ import { CNAB } from '@/domain/models'
 import { PersistCNAB } from '@/domain/usecases'
 
 export class PersistCNABServiceSpy implements PersistCNAB {
-  data: CNAB
+  data: CNAB[]
+  result = true
 
-  async persist (data: CNAB): Promise<boolean> {
+  async persist (data: CNAB[]): Promise<boolean> {
     this.data = data
-    return Promise.resolve(null)
+    return this.result
   }
 }

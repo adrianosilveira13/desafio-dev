@@ -4,9 +4,9 @@ import { mockCNAB } from '@/tests/domain/mocks'
 
 export class ParseCNABSpy implements ParseCNAB {
   buffer: Buffer
-  result = mockCNAB()
+  result = [mockCNAB()]
 
-  parse (data: Buffer): CNAB {
+  parse (data: Buffer): CNAB[] {
     this.buffer = data
     return this.result
   }

@@ -14,7 +14,8 @@ export class PersistCNABDataController implements Controller {
       const error = this.validation.validate(request)
       if (error) return badRequest(error)
       const validCNAB = this.parseCNAB.parse(request.file.buffer)
-      await this.persititCNAB.persist(validCNAB)
+      const success = await this.persititCNAB.persist(validCNAB)
+      if (!success) return serverError(new Error())
       return noContent()
     } catch (error) {
       return serverError(error)

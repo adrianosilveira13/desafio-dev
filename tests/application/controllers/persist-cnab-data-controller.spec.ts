@@ -1,4 +1,4 @@
-import { ParseCNABSpy } from '@/tests/ultils/mocks'
+import { ParseCNABSpy } from '@/tests/utils/mocks'
 import { PersistCNABDataController } from '@/application/controllers'
 import { ValidationSpy } from '@/tests/application/mocks'
 import { badRequest, noContent, serverError } from '@/application/helpers'
@@ -55,9 +55,16 @@ describe('PersistCNABData Controller', () => {
 
   it('Should call PersistCNABService with correct value', async () => {
     const { sut, parseCNABSpy, persistCNABServiceSpy } = makeSut()
-    parseCNABSpy.result = mockCNAB()
+    parseCNABSpy.result = [mockCNAB()]
     await sut.handle(mockRequest())
     expect(persistCNABServiceSpy.data).toEqual(parseCNABSpy.result)
+  })
+
+  it('Should return 500 if PersistCNABService returns false', async () => {
+    const { sut, persistCNABServiceSpy } = makeSut()
+    persistCNABServiceSpy.result = false
+    const response = await sut.handle(mockRequest())
+    expect(response).toEqual(serverError(new Error()))
   })
 
   it('Should return 500 if PersistCNABService fails', async () => {
