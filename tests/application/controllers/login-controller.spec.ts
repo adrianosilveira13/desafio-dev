@@ -1,6 +1,6 @@
 import { LoginController } from '@/application/controllers'
 import { AuthenticationSpy, ValidationSpy } from '@/tests/application/mocks'
-import { badRequest, unauthorized } from '@/application/helpers'
+import { badRequest, ok, unauthorized } from '@/application/helpers'
 import faker from '@faker-js/faker'
 
 const mockRequest = (): LoginController.HttpRequest => {
@@ -58,5 +58,11 @@ describe('Login Controller', () => {
     authenticationSpy.authenticationModel = null
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(unauthorized())
+  })
+
+  it('Should return 200 if valid credentials are provided', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const httpReponse = await sut.handle(mockRequest())
+    expect(httpReponse).toEqual(ok(authenticationSpy.authenticationModel))
   })
 })
