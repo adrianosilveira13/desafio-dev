@@ -1,6 +1,6 @@
 import { Controller, HttpResponse, Validation } from '@/application/protocols'
+import { badRequest, ok, unauthorized } from '@/application/helpers'
 import { Authentication } from '@/domain/usecases'
-import { badRequest, unauthorized } from '../helpers'
 
 export class LoginController implements Controller {
   constructor (
@@ -16,7 +16,7 @@ export class LoginController implements Controller {
     const authenticationModel = await this.authentication.auth({ email, password })
     if (!authenticationModel) return unauthorized()
 
-    return Promise.resolve(null)
+    return ok(authenticationModel)
   }
 }
 
