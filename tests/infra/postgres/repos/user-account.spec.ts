@@ -80,4 +80,16 @@ describe('PgUserAccountRepository', () => {
       expect(account).toBeFalsy()
     })
   })
+
+  describe('updateAccessToken()', () => {
+    it('Should update the account access token on success', async () => {
+      const addAccountParams = mockAddAccountParams()
+      const res = await pgUserRepo.save(addAccountParams)
+      const accessToken = faker.datatype.uuid()
+      await sut.updateAccessToken(res.id.toString(), accessToken)
+      const account = await pgUserRepo.findOne({ id: res.id })
+      expect(account).toBeTruthy()
+      expect(account.accessToken).toBe(accessToken)
+    })
+  })
 })
