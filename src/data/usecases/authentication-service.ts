@@ -18,8 +18,8 @@ export class AuthenticationService implements Authentication {
         const accessToken = await this.encrypter.encrypt(account.id)
         await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
         return {
-          accessToken: 'any_token',
-          name: 'any_name'
+          accessToken,
+          name: account.name
         }
       }
     }
