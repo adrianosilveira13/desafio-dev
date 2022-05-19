@@ -1,4 +1,4 @@
-import { AddAccountService } from '@/data/usecases'
+import { AddAccountService } from '@/data/services'
 import { AddAccountRepositorySpy, CheckAccountByEmailRepositorySpy, HasherSpy } from '@/tests/data/mocks'
 import { mockAddAccountParams } from '@/tests/domain/mocks'
 

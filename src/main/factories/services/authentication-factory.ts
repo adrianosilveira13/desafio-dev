@@ -1,5 +1,5 @@
 import env from '@/main/config/env'
-import { AuthenticationService } from '@/data/usecases'
+import { AuthenticationService } from '@/data/services'
 import { BcryptAdapter, JwtAdapter } from '@/infra/cryptography'
 import { PgUserAccountRepository } from '@/infra/postgres/repos'
 

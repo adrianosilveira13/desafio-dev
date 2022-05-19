@@ -1,4 +1,4 @@
-import { AuthenticationService } from '@/data/usecases'
+import { AuthenticationService } from '@/data/services'
 import { EncrypterSpy, HashComparerSpy, LoadAccountByEmailRepositorySpy, UpdateAccessTokenRepositorySpy } from '@/tests/data/mocks'
 import { mockAuthenticationParams } from '@/tests/domain/mocks'
 

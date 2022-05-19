@@ -1,4 +1,4 @@
-import { AddAccountService } from '@/data/usecases'
+import { AddAccountService } from '@/data/services'
 import { AddAccount } from '@/domain/usecases'
 import { BcryptAdapter } from '@/infra/cryptography'
 import { PgUserAccountRepository } from '@/infra/postgres/repos'
