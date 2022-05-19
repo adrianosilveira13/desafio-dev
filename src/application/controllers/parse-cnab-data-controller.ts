@@ -1,5 +1,5 @@
 import { Controller, HttpResponse, ParseCNAB, Validation } from '@/application/protocols'
-import { badRequest, serverError } from '@/application/helpers'
+import { badRequest, noContent, serverError } from '@/application/helpers'
 import { PersistCNAB } from '@/domain/usecases'
 
 export class PersistCNABDataController implements Controller {
@@ -16,7 +16,7 @@ export class PersistCNABDataController implements Controller {
       if (error) return badRequest(error)
       const validCNAB = this.parseCNAB.parse(buffer)
       await this.persititCNAB.persist(validCNAB)
-      return Promise.resolve(null)
+      return noContent()
     } catch (error) {
       return serverError(error)
     }
