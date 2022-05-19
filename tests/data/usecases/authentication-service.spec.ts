@@ -1,21 +1,27 @@
 import { AuthenticationService } from '@/data/usecases'
-import { HashComparerSpy, LoadAccountByEmailRepositorySpy } from '@/tests/data/mocks'
+import { EncrypterSpy, HashComparerSpy, LoadAccountByEmailRepositorySpy, UpdateAccessTokenRepositorySpy } from '@/tests/data/mocks'
 import { mockAuthenticationParams } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: AuthenticationService
   loadAccountByEmailRepositorySpy: LoadAccountByEmailRepositorySpy
   hashComparerSpy: HashComparerSpy
+  encrypterSpy: EncrypterSpy
+  updateAccessTokenRepositorySpy: UpdateAccessTokenRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositorySpy = new LoadAccountByEmailRepositorySpy()
   const hashComparerSpy = new HashComparerSpy()
-  const sut = new AuthenticationService(loadAccountByEmailRepositorySpy, hashComparerSpy)
+  const encrypterSpy = new EncrypterSpy()
+  const updateAccessTokenRepositorySpy = new UpdateAccessTokenRepositorySpy()
+  const sut = new AuthenticationService(loadAccountByEmailRepositorySpy, hashComparerSpy, encrypterSpy, updateAccessTokenRepositorySpy)
   return {
     sut,
     loadAccountByEmailRepositorySpy,
-    hashComparerSpy
+    hashComparerSpy,
+    encrypterSpy,
+    updateAccessTokenRepositorySpy
   }
 }
 
@@ -47,5 +53,18 @@ describe('AuthenticationService Usecase', () => {
     hashComparerSpy.isValid = false
     const model = await sut.auth(mockAuthenticationParams())
     expect(model).toBeNull()
+  })
+
+  it('Should call Encrypter with correct plaintext', async () => {
+    const { sut, encrypterSpy, loadAccountByEmailRepositorySpy } = makeSut()
+    await sut.auth(mockAuthenticationParams())
+    expect(encrypterSpy.plaintext).toBe(loadAccountByEmailRepositorySpy.result.id)
+  })
+
+  it('Should call UpdateAccessTokenRepository with correct values', async () => {
+    const { sut, updateAccessTokenRepositorySpy, loadAccountByEmailRepositorySpy, encrypterSpy } = makeSut()
+    await sut.auth(mockAuthenticationParams())
+    expect(updateAccessTokenRepositorySpy.id).toBe(loadAccountByEmailRepositorySpy.result.id)
+    expect(updateAccessTokenRepositorySpy.token).toBe(encrypterSpy.ciphertext)
   })
 })
