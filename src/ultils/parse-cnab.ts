@@ -4,7 +4,6 @@ import { CNAB } from '@/domain/models'
 export class ParseCNABTool implements ParseCNAB {
   parse (data: Buffer): CNAB[] {
     const output: CNAB[] = []
-    const lines = data.toString().split('\n')
     let type: number
     let date: Date
     let amount: number
@@ -13,6 +12,7 @@ export class ParseCNABTool implements ParseCNAB {
     let owner: string
     let storeName: string
 
+    const lines = data.toString().split('\n')
     for (const line of lines) {
       if (line.length !== 0) {
         const year = line.slice(1, 5)
