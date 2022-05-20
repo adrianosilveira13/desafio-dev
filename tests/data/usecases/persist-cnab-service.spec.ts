@@ -26,4 +26,11 @@ describe('PersistCNABService', () => {
     expect(checkTransactionTypeRepositorySpy.types[1]).toBe(validCNAB2.type)
     expect(checkTransactionTypeRepositorySpy.callsCount).toBe(2)
   })
+
+  it('Should return false if CheckTransactionTypeRepository returns false', async () => {
+    const { sut, checkTransactionTypeRepositorySpy } = makeSut()
+    checkTransactionTypeRepositorySpy.result = false
+    const success = await sut.persist([mockCNAB()])
+    expect(success).toBe(false)
+  })
 })
