@@ -6,7 +6,8 @@ export class PersistCNABService implements PersistCNAB {
 
   async persist (data: PersistCNAB.Params): Promise<boolean> {
     for (const item of data) {
-      await this.checkTransactionTypeRepository.checkByType(item.type)
+      const isValid = await this.checkTransactionTypeRepository.checkByType(item.type)
+      if (!isValid) return false
     }
     return true
   }
