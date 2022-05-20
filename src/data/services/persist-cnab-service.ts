@@ -12,7 +12,8 @@ export class PersistCNABService implements PersistCNAB {
       const isValid = await this.checkTransactionTypeRepository.checkByType(item.type)
       if (!isValid) return false
 
-      await this.saveTransactionRepository.save(item)
+      const success = await this.saveTransactionRepository.save(item)
+      if (!success) return false
     }
     return true
   }
