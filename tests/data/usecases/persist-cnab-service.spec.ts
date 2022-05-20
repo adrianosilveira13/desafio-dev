@@ -1,18 +1,21 @@
 import { PersistCNABService } from '@/data/services'
 import { mockCNAB } from '@/tests/domain/mocks'
-import { CheckTransactionTypeRepositorySpy } from '@/tests/data/mocks'
+import { CheckTransactionTypeRepositorySpy, SaveTransactionRepositorySpy } from '@/tests/data/mocks'
 
 type SutTypes = {
   sut: PersistCNABService
   checkTransactionTypeRepositorySpy: CheckTransactionTypeRepositorySpy
+  saveTransactionRepositorySpy: SaveTransactionRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const checkTransactionTypeRepositorySpy = new CheckTransactionTypeRepositorySpy()
-  const sut = new PersistCNABService(checkTransactionTypeRepositorySpy)
+  const saveTransactionRepositorySpy = new SaveTransactionRepositorySpy()
+  const sut = new PersistCNABService(checkTransactionTypeRepositorySpy, saveTransactionRepositorySpy)
   return {
     sut,
-    checkTransactionTypeRepositorySpy
+    checkTransactionTypeRepositorySpy,
+    saveTransactionRepositorySpy
   }
 }
 
@@ -32,5 +35,15 @@ describe('PersistCNABService', () => {
     checkTransactionTypeRepositorySpy.result = false
     const success = await sut.persist([mockCNAB()])
     expect(success).toBe(false)
+  })
+
+  it('Should call SaveTransactionRepository with correct values', async () => {
+    const { sut, saveTransactionRepositorySpy } = makeSut()
+    const validCNAB1 = (mockCNAB())
+    const validCNAB2 = (mockCNAB())
+    await sut.persist([validCNAB1, validCNAB2])
+    expect(saveTransactionRepositorySpy.transactions[0]).toBe(validCNAB1)
+    expect(saveTransactionRepositorySpy.transactions[1]).toBe(validCNAB2)
+    expect(saveTransactionRepositorySpy.callsCount).toBe(2)
   })
 })
