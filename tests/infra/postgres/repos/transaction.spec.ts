@@ -46,5 +46,10 @@ describe('PgTransactionRepository', () => {
       const success = await sut.checkByType(1)
       expect(success).toBe(true)
     })
+
+    it('Should return false if type does not exist', async () => {
+      const success = await sut.checkByType(1)
+      expect(success).toBe(false)
+    })
   })
 })
