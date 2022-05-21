@@ -21,7 +21,7 @@ export class PgTransactionRepository implements CheckTransactionTypeRepository, 
     const storeRepo = getRepository(PgStore)
     const store = await storeRepo.save({ owner: params.owner, name: params.storeName })
     if (!store) return null
-    return { id: store.id }
+    return store
   }
 
   async save ({ cnab, storeId }: SaveTransactionRepository.Params): Promise<boolean> {
