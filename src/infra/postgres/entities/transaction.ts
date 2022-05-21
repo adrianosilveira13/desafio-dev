@@ -20,10 +20,10 @@ export class PgTransaction {
     card: string
 
   @ManyToOne(() => PgStore, (store) => store.transactions)
-  @JoinColumn({ name: 'store_id' })
+  @JoinColumn({ name: 'storeId' })
     store: PgStore
 
   @ManyToOne(() => PgTransactionType, (transactionType) => transactionType.transactions)
-  @JoinColumn({ name: 'transaction_type_id' })
+  @JoinColumn({ name: 'transactionTypeId' })
     transactionType: PgTransactionType
 }
