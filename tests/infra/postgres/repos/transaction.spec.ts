@@ -81,6 +81,8 @@ describe('PgTransactionRepository', () => {
     it('Should return true on success', async () => {
       const cnab = mockCNAB()
       const validStore = await pgStoreRepo.save(mockStoreParams())
+      const transactionType = await pgTypesRepo.save(mockTransactionTypeParams())
+      cnab.type = transactionType.id
       const success = await sut.save({ cnab, storeId: validStore.id })
       expect(success).toBe(true)
     })
