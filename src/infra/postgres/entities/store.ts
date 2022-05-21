@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { PgTransactions } from './transaction'
+import { PgTransaction } from './transaction'
 
 @Entity({ name: 'stores' })
 export class PgStore {
@@ -12,6 +12,6 @@ export class PgStore {
   @Column({ type: 'varchar', length: '40', nullable: false })
     owner: string
 
-  @OneToMany(type => PgTransactions, store => PgStore)
-    transactions: PgTransactions[]
+  @OneToMany(type => PgTransaction, store => PgStore)
+    transactions: PgTransaction[]
 }

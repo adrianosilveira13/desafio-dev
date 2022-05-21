@@ -1,9 +1,9 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { PgStore } from './store'
-import { PgTransactionTypes } from './transaction_types'
+import { PgTransactionType } from './transaction_types'
 
-@Entity({ name: 'transactions' })
-export class PgTransactions {
+@Entity({ name: 'transaction' })
+export class PgTransaction {
   @PrimaryGeneratedColumn('increment')
     id: number
 
@@ -19,9 +19,9 @@ export class PgTransactions {
   @Column({ type: 'varchar', length: '16', nullable: false })
     card: string
 
-  @ManyToOne(type => PgStore, transactions => PgTransactions)
+  @ManyToOne(type => PgStore, transactions => PgTransaction)
     store: PgStore
 
-  @ManyToOne(type => PgTransactionTypes, transaction => PgTransactions)
-    transaction_type: PgTransactionTypes
+  @ManyToOne(type => PgTransactionType, transaction => PgTransaction)
+    transaction_type: PgTransactionType
 }

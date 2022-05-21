@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { PgTransactions } from './transaction'
+import { PgTransaction } from './transaction'
 
-@Entity({ name: 'transaction_types' })
-export class PgTransactionTypes {
+@Entity({ name: 'transactionType' })
+export class PgTransactionType {
   @PrimaryGeneratedColumn('increment')
-    id: number
+    id!: number
 
   @Column({ type: 'varchar', length: '30', nullable: false, unique: true })
     description: string
@@ -16,6 +16,6 @@ export class PgTransactionTypes {
   @Column({ type: 'char', length: '1', nullable: false })
     signal: string
 
-  @OneToMany(type => PgTransactions, transaction_type => PgTransactionTypes)
-    transaction: PgTransactions[]
+  @OneToMany(type => PgTransaction, transaction_type => PgTransactionType)
+    transaction: PgTransaction[]
 }

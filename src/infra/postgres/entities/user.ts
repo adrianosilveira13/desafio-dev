@@ -5,7 +5,7 @@ export class PgUser {
   @PrimaryGeneratedColumn('increment')
     id!: number
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: 'varchar', length: 30 })
     name: string
 
   @Column({ name: 'email', type: 'varchar', length: '255' })
