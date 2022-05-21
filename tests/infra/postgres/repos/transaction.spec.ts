@@ -69,4 +69,12 @@ describe('PgTransactionRepository', () => {
       expect(success).toEqual(null)
     })
   })
+
+  describe('createStore()', () => {
+    it('Should return an id on success', async () => {
+      const storeParams = mockStoreParams()
+      const success = await sut.createStore({ owner: storeParams.owner, storeName: storeParams.name })
+      expect(success).toEqual({ id: 1 })
+    })
+  })
 })
