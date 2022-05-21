@@ -6,7 +6,7 @@ describe('ParseCNAB Tool', () => {
     const sut = new ParseCNABTool()
     const validCNAB = sut.parse(Buffer.from(mockCNABRaw()))
     expect(validCNAB).toEqual([{
-      type: 3,
+      type: 1,
       date: new Date('2019-03-01T15:34:53'),
       amount: 142,
       document: '09620676017',
@@ -14,7 +14,7 @@ describe('ParseCNAB Tool', () => {
       owner: 'joão macedo',
       storeName: 'bar do joão'
     }, {
-      type: 5,
+      type: 2,
       date: new Date('2019-03-01T14:56:07'),
       amount: 132,
       document: '55641815063',

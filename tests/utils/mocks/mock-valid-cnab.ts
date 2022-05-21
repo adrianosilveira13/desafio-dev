@@ -1,7 +1,7 @@
 import { CNAB } from '@/domain/models'
 
 export const mockValidCNAB = (): CNAB[] => [{
-  type: 3,
+  type: 1,
   date: new Date('2019-03-01T15:34:53'),
   amount: 142,
   document: '09620676017',
@@ -9,7 +9,7 @@ export const mockValidCNAB = (): CNAB[] => [{
   owner: 'João Macedo',
   storeName: 'Bar Do João'
 }, {
-  type: 5,
+  type: 2,
   date: new Date('2019-03-01T14:56:07'),
   amount: 132,
   document: '55641815063',

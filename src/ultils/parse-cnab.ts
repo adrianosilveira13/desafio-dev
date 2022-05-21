@@ -12,7 +12,7 @@ export class ParseCNABTool implements ParseCNAB {
     let owner: string
     let storeName: string
 
-    const lines = data.toString().split('\n')
+    const lines = data.toString('utf-8').split('\n')
     for (const line of lines) {
       if (line.length !== 0) {
         const year = line.slice(1, 5)
