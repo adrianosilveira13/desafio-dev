@@ -56,11 +56,11 @@ describe('PgTransactionRepository', () => {
   })
 
   describe('checkStore()', () => {
-    it('Should return an id if store exists', async () => {
+    it('Should return a Truthy value if store exists', async () => {
       const storeParams = mockStoreParams()
       await pgStoreRepo.save(storeParams)
       const success = await sut.checkStore({ owner: storeParams.owner, storeName: storeParams.name })
-      expect(success).toEqual({ id: 1 })
+      expect(success).toBeTruthy()
     })
 
     it('Should return null if store does not exist', async () => {

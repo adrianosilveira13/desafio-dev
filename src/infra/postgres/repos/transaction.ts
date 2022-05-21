@@ -14,7 +14,7 @@ export class PgTransactionRepository implements CheckTransactionTypeRepository, 
     const storeRepo = getRepository(PgStore)
     const store = await storeRepo.findOne({ owner: params.owner, name: params.storeName })
     if (!store) return null
-    return { id: store.id }
+    return store
   }
 
   async createStore (params: CreateStoreRepository.Params): Promise<CreateStoreRepository.Result> {
