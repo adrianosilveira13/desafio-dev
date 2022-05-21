@@ -1,5 +1,7 @@
 export * from './mock-account-service'
+export * from './mock-check-store-by-name-and-owner-repository'
 export * from './mock-check-transaction-type-repository'
+export * from './mock-create-store-repository'
 export * from './mock-criptography'
 export * from './mock-parse-cnab-service'
 export * from './mock-save-transaction-repository'
