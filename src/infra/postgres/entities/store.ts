@@ -12,6 +12,6 @@ export class PgStore {
   @Column({ type: 'varchar', nullable: false })
     owner: string
 
-  @OneToMany(type => PgTransaction, store => PgStore)
+  @OneToMany(() => PgTransaction, (transaction) => transaction.store)
     transactions: PgTransaction[]
 }

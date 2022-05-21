@@ -16,6 +16,6 @@ export class PgTransactionType {
   @Column({ type: 'char', length: '1', nullable: false })
     signal: string
 
-  @OneToMany(type => PgTransaction, transaction_type => PgTransactionType)
-    transaction: PgTransaction[]
+  @OneToMany(() => PgTransaction, (transaction) => transaction.transactionType)
+    transactions: PgTransaction[]
 }

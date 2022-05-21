@@ -1,4 +1,4 @@
-import { mockStoreParams, mockTransactionTypeParams } from '@/tests/domain/mocks'
+import { mockCNAB, mockStoreParams, mockTransactionTypeParams } from '@/tests/domain/mocks'
 import { PgTransactionRepository } from '@/infra/postgres/repos'
 import { PgTransactionType, PgTransaction, PgStore } from '@/infra/postgres/entities'
 import { IBackup, newDb } from 'pg-mem'
@@ -42,11 +42,11 @@ describe('PgTransactionRepository', () => {
   })
 
   describe('checkByType()', () => {
-    it('Should return true if type exists', async () => {
+    it('Should return a valid type if type exists', async () => {
       const transactionTypeParams = mockTransactionTypeParams()
       await pgTypesRepo.save(transactionTypeParams)
       const success = await sut.checkByType(1)
-      expect(success).toBe(true)
+      expect(success).toBeTruthy()
     })
 
     it('Should return false if type does not exist', async () => {
@@ -75,6 +75,14 @@ describe('PgTransactionRepository', () => {
       const storeParams = mockStoreParams()
       const success = await sut.createStore({ owner: storeParams.owner, storeName: storeParams.name })
       expect(success).toEqual({ id: 1 })
+    })
+  })
+
+  describe('save()', () => {
+    it('Should return an true on success', async () => {
+      const cnabParams = mockCNAB()
+      await sut.save({ cnab: cnabParams, storeId: 4 })
+      expect(true).toEqual(true)
     })
   })
 })

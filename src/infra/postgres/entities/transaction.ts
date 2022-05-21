@@ -19,9 +19,9 @@ export class PgTransaction {
   @Column({ type: 'varchar', nullable: false })
     card: string
 
-  @ManyToOne(type => PgStore, transactions => PgTransaction)
+  @ManyToOne(() => PgStore, (store) => store.transactions)
     store: PgStore
 
-  @ManyToOne(type => PgTransactionType, transaction => PgTransaction)
-    transaction_type: PgTransactionType
+  @ManyToOne(() => PgTransactionType, (transactionType) => transactionType.transactions)
+    transactionType: PgTransactionType
 }
