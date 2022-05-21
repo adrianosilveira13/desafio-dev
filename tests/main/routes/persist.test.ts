@@ -42,7 +42,7 @@ describe('Persist Routes', () => {
   })
 
   describe('POST /api/persist', () => {
-    it('Should return 204', async () => {
+    it('Should return 204 on success', async () => {
       await pgTypesRepo.save({
         description: 'any_desc',
         type: 'any_type',
@@ -63,6 +63,13 @@ describe('Persist Routes', () => {
       expect(body).toEqual({})
       expect(transaction1.card).toBe(validCNABS[0].card)
       expect(transaction2.card).toBe(validCNABS[1].card)
+    })
+
+    it('Should return 400 if no file is provided', async () => {
+      const response = await request(app)
+        .post('/api/persist')
+      expect(response.statusCode).toBe(400)
+      expect(response.body.error).toBe('Missing param: file')
     })
   })
 })
