@@ -55,6 +55,17 @@ describe('PersistCNABService', () => {
     expect(checkStoreByNameAndOwnerRepositorySpy.callsCount).toBe(2)
   })
 
+  it('Should call SaveTransactionRepository with existing store if CheckStoreByNameAndOwnerRepository returns an id', async () => {
+    const { sut, saveTransactionRepositorySpy, checkStoreByNameAndOwnerRepositorySpy } = makeSut()
+    const { result: { id } } = checkStoreByNameAndOwnerRepositorySpy
+    const validCNAB1 = (mockCNAB())
+    const validCNAB2 = (mockCNAB())
+    await sut.persist([validCNAB1, validCNAB2])
+    expect(saveTransactionRepositorySpy.transactions[0]).toEqual({ cnab: validCNAB1, storeId: id })
+    expect(saveTransactionRepositorySpy.transactions[1]).toEqual({ cnab: validCNAB2, storeId: id })
+    expect(saveTransactionRepositorySpy.callsCount).toBe(2)
+  })
+
   it('Should call CreateStoreRepository if CheckStoreByNameAndOwnerRepository returns null', async () => {
     const { sut, checkStoreByNameAndOwnerRepositorySpy, createStoreRepositorySpy } = makeSut()
     checkStoreByNameAndOwnerRepositorySpy.result = null
@@ -68,18 +79,28 @@ describe('PersistCNABService', () => {
     expect(createStoreRepositorySpy.callsCount).toBe(2)
   })
 
-  it('Should call SaveTransactionRepository with correct values', async () => {
-    const { sut, saveTransactionRepositorySpy } = makeSut()
+  it('Should call SaveTransactionRepository with id from CreateStoreRepository', async () => {
+    const { sut, saveTransactionRepositorySpy, checkStoreByNameAndOwnerRepositorySpy, createStoreRepositorySpy } = makeSut()
+    checkStoreByNameAndOwnerRepositorySpy.result = null
+    const { result: { id } } = createStoreRepositorySpy
     const validCNAB1 = (mockCNAB())
     const validCNAB2 = (mockCNAB())
     await sut.persist([validCNAB1, validCNAB2])
-    expect(saveTransactionRepositorySpy.transactions[0]).toBe(validCNAB1)
-    expect(saveTransactionRepositorySpy.transactions[1]).toBe(validCNAB2)
+    expect(saveTransactionRepositorySpy.transactions[0]).toEqual({ cnab: validCNAB1, storeId: id })
+    expect(saveTransactionRepositorySpy.transactions[1]).toEqual({ cnab: validCNAB2, storeId: id })
     expect(saveTransactionRepositorySpy.callsCount).toBe(2)
   })
 
   it('Should return false if SaveTransactionRepository returns false', async () => {
     const { sut, saveTransactionRepositorySpy } = makeSut()
+    saveTransactionRepositorySpy.result = false
+    const success = await sut.persist([mockCNAB()])
+    expect(success).toBe(false)
+  })
+
+  it('Should return false if SaveTransactionRepository returns false and CheckStoreByNameAndOwnerRepository returns null', async () => {
+    const { sut, saveTransactionRepositorySpy, checkStoreByNameAndOwnerRepositorySpy } = makeSut()
+    checkStoreByNameAndOwnerRepositorySpy.result = null
     saveTransactionRepositorySpy.result = false
     const success = await sut.persist([mockCNAB()])
     expect(success).toBe(false)

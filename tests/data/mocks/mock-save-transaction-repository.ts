@@ -1,13 +1,12 @@
 import { SaveTransactionRepository } from '@/data/protocols/db'
-import { CNAB } from '@/domain/models'
 
 export class SaveTransactionRepositorySpy implements SaveTransactionRepository {
-  transactions: CNAB[] = []
+  transactions: SaveTransactionRepository.Params[] = []
   callsCount = 0
   result = true
 
-  async save (transaction: CNAB): Promise<boolean> {
-    this.transactions.push(transaction)
+  async save (transaction: SaveTransactionRepository.Params): Promise<boolean> {
+    this.transactions.push({ cnab: transaction.cnab, storeId: transaction.storeId })
     this.callsCount++
     return this.result
   }

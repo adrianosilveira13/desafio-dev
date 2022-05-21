@@ -18,12 +18,14 @@ export class PersistCNABService implements PersistCNAB {
 
       const storeExists = await this.checkStoreByNameAndOwnerRepository.checkStore(store)
 
-      if (!storeExists) {
-        await this.createStoreRepository.createStore(store)
+      if (storeExists) {
+        const success = await this.saveTransactionRepository.save({ cnab: item, storeId: storeExists.id })
+        if (!success) return false
+      } else {
+        const newStore = await this.createStoreRepository.createStore(store)
+        const success = await this.saveTransactionRepository.save({ cnab: item, storeId: newStore.id })
+        if (!success) return false
       }
-
-      const success = await this.saveTransactionRepository.save(item)
-      if (!success) return false
     }
     return true
   }

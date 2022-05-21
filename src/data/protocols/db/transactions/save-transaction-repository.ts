@@ -5,6 +5,9 @@ export interface SaveTransactionRepository {
 }
 
 export namespace SaveTransactionRepository {
-  export type Params = CNAB
+  export type Params = {
+    cnab: CNAB
+    storeId: number
+  }
   export type Result = boolean
 }
