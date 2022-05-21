@@ -6,10 +6,10 @@ export class PgStore {
   @PrimaryGeneratedColumn('increment')
     id: number
 
-  @Column({ type: 'varchar', length: '40', nullable: false })
+  @Column({ type: 'varchar', nullable: false })
     name: string
 
-  @Column({ type: 'varchar', length: '40', nullable: false })
+  @Column({ type: 'varchar', nullable: false })
     owner: string
 
   @OneToMany(type => PgTransaction, store => PgStore)

@@ -13,10 +13,10 @@ export class PgTransaction {
   @Column({ type: 'float', nullable: false })
     amount: number
 
-  @Column({ type: 'varchar', length: '11', nullable: false })
+  @Column({ type: 'varchar', nullable: false })
     document: string
 
-  @Column({ type: 'varchar', length: '16', nullable: false })
+  @Column({ type: 'varchar', nullable: false })
     card: string
 
   @ManyToOne(type => PgStore, transactions => PgTransaction)

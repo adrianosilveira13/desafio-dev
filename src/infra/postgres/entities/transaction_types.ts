@@ -7,10 +7,10 @@ export class PgTransactionType {
   @PrimaryGeneratedColumn('increment')
     id!: number
 
-  @Column({ type: 'varchar', length: '30', nullable: false, unique: true })
+  @Column({ type: 'varchar', nullable: false, unique: true })
     description: string
 
-  @Column({ type: 'varchar', length: '20', nullable: false })
+  @Column({ type: 'varchar', nullable: false })
     type: string
 
   @Column({ type: 'char', length: '1', nullable: false })
