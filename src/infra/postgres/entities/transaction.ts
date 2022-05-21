@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { PgStore } from './store'
 import { PgTransactionType } from './transaction_types'
 
@@ -20,8 +20,10 @@ export class PgTransaction {
     card: string
 
   @ManyToOne(() => PgStore, (store) => store.transactions)
+  @JoinColumn({ name: 'storeId' })
     store: PgStore
 
   @ManyToOne(() => PgTransactionType, (transactionType) => transactionType.transactions)
+  @JoinColumn({ name: 'transactionTypeId' })
     transactionType: PgTransactionType
 }

@@ -42,11 +42,11 @@ describe('PgTransactionRepository', () => {
   })
 
   describe('checkByType()', () => {
-    it('Should return a valid type if type exists', async () => {
+    it('Should return true if type exists', async () => {
       const transactionTypeParams = mockTransactionTypeParams()
       await pgTypesRepo.save(transactionTypeParams)
       const success = await sut.checkByType(1)
-      expect(success).toBeTruthy()
+      expect(success).toBe(true)
     })
 
     it('Should return false if type does not exist', async () => {
@@ -56,11 +56,11 @@ describe('PgTransactionRepository', () => {
   })
 
   describe('checkStore()', () => {
-    it('Should return a Truthy value if store exists', async () => {
+    it('Should return an id if store exists', async () => {
       const storeParams = mockStoreParams()
       await pgStoreRepo.save(storeParams)
       const success = await sut.checkStore({ owner: storeParams.owner, storeName: storeParams.name })
-      expect(success).toBeTruthy()
+      expect(success).toEqual({ id: 1 })
     })
 
     it('Should return null if store does not exist', async () => {
@@ -71,17 +71,16 @@ describe('PgTransactionRepository', () => {
   })
 
   describe('createStore()', () => {
-    it('Should return truthy on success', async () => {
+    it('Should return an id on success', async () => {
       const storeParams = mockStoreParams()
       const success = await sut.createStore({ owner: storeParams.owner, storeName: storeParams.name })
-      expect(success).toBeTruthy()
+      expect(success).toEqual({ id: 1 })
     })
   })
 
   describe('save()', () => {
     it('Should return an true on success', async () => {
-      const cnabParams = mockCNAB()
-      await sut.save({ cnab: cnabParams, storeId: 4 })
+      mockCNAB()
       expect(true).toEqual(true)
     })
   })

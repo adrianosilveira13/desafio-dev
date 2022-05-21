@@ -13,8 +13,8 @@ export class PersistCNABService implements PersistCNAB {
     for (const item of data) {
       const store = { owner: item.owner, storeName: item.storeName }
 
-      const isValid = await this.checkTransactionTypeRepository.checkByType(item.type)
-      if (!isValid) return false
+      const validType = await this.checkTransactionTypeRepository.checkByType(item.type)
+      if (!validType) return false
 
       const storeExists = await this.checkStoreByNameAndOwnerRepository.checkStore(store)
 

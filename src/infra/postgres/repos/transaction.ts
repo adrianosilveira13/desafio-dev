@@ -1,31 +1,26 @@
-import { CheckStoreByNameAndOwnerRepository, CheckTransactionTypeRepository, CreateStoreRepository, SaveTransactionRepository } from '@/data/protocols/db'
+import { CheckStoreByNameAndOwnerRepository, CheckTransactionTypeRepository, CreateStoreRepository } from '@/data/protocols/db'
 import { getRepository } from 'typeorm'
-import { PgStore, PgTransaction, PgTransactionType } from '@/infra/postgres/entities'
+import { PgStore, PgTransactionType } from '../entities'
 
-export class PgTransactionRepository implements CheckTransactionTypeRepository, CheckStoreByNameAndOwnerRepository, CreateStoreRepository, SaveTransactionRepository {
-  async checkByType (type: number): Promise<CheckTransactionTypeRepository.Result> {
+export class PgTransactionRepository implements CheckTransactionTypeRepository, CheckStoreByNameAndOwnerRepository, CreateStoreRepository {
+  async checkByType (type: number): Promise<boolean> {
     const transactionTypeRepo = getRepository(PgTransactionType)
     const transactionType = await transactionTypeRepo.findOne({ id: type })
     if (!transactionType) return false
-    return transactionType
+    return true
   }
 
   async checkStore (params: CheckStoreByNameAndOwnerRepository.Params): Promise<CheckStoreByNameAndOwnerRepository.Result> {
     const storeRepo = getRepository(PgStore)
     const store = await storeRepo.findOne({ owner: params.owner, name: params.storeName })
     if (!store) return null
-    return store
+    return { id: store.id }
   }
 
   async createStore (params: CreateStoreRepository.Params): Promise<CreateStoreRepository.Result> {
     const storeRepo = getRepository(PgStore)
     const store = await storeRepo.save({ owner: params.owner, name: params.storeName })
     if (!store) return null
-    return store
-  }
-
-  async save ({ cnab, storeId }: SaveTransactionRepository.Params): Promise<boolean> {
-    getRepository(PgTransaction)
-    return Promise.resolve(null)
+    return { id: store.id }
   }
 }
