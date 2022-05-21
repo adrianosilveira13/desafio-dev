@@ -1,24 +1,26 @@
 import { PersistCNABService } from '@/data/services'
 import { mockCNAB } from '@/tests/domain/mocks'
-import { CheckTransactionTypeRepositorySpy, SaveTransactionRepositorySpy } from '@/tests/data/mocks'
-import { CheckStoreByNameAndOwnerRepositorySpy } from '../mocks/mock-check-store-by-name-and-owner-repository'
+import { CheckStoreByNameAndOwnerRepositorySpy, CheckTransactionTypeRepositorySpy, CreateStoreRepositorySpy, SaveTransactionRepositorySpy } from '@/tests/data/mocks'
 
 type SutTypes = {
   sut: PersistCNABService
   checkTransactionTypeRepositorySpy: CheckTransactionTypeRepositorySpy
   checkStoreByNameAndOwnerRepositorySpy: CheckStoreByNameAndOwnerRepositorySpy
+  createStoreRepositorySpy: CreateStoreRepositorySpy
   saveTransactionRepositorySpy: SaveTransactionRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const checkTransactionTypeRepositorySpy = new CheckTransactionTypeRepositorySpy()
   const checkStoreByNameAndOwnerRepositorySpy = new CheckStoreByNameAndOwnerRepositorySpy()
+  const createStoreRepositorySpy = new CreateStoreRepositorySpy()
   const saveTransactionRepositorySpy = new SaveTransactionRepositorySpy()
-  const sut = new PersistCNABService(checkTransactionTypeRepositorySpy, checkStoreByNameAndOwnerRepositorySpy, saveTransactionRepositorySpy)
+  const sut = new PersistCNABService(checkTransactionTypeRepositorySpy, checkStoreByNameAndOwnerRepositorySpy, createStoreRepositorySpy, saveTransactionRepositorySpy)
   return {
     sut,
     checkTransactionTypeRepositorySpy,
     checkStoreByNameAndOwnerRepositorySpy,
+    createStoreRepositorySpy,
     saveTransactionRepositorySpy
   }
 }
@@ -45,10 +47,25 @@ describe('PersistCNABService', () => {
     const { sut, checkStoreByNameAndOwnerRepositorySpy } = makeSut()
     const validCNAB1 = (mockCNAB())
     const validCNAB2 = (mockCNAB())
+    const store1 = { owner: validCNAB1.owner, storeName: validCNAB1.storeName }
+    const store2 = { owner: validCNAB2.owner, storeName: validCNAB2.storeName }
     await sut.persist([validCNAB1, validCNAB2])
-    expect(checkStoreByNameAndOwnerRepositorySpy.data[0]).toEqual({ owner: validCNAB1.owner, storeName: validCNAB1.storeName })
-    expect(checkStoreByNameAndOwnerRepositorySpy.data[1]).toEqual({ owner: validCNAB2.owner, storeName: validCNAB2.storeName })
+    expect(checkStoreByNameAndOwnerRepositorySpy.data[0]).toEqual(store1)
+    expect(checkStoreByNameAndOwnerRepositorySpy.data[1]).toEqual(store2)
     expect(checkStoreByNameAndOwnerRepositorySpy.callsCount).toBe(2)
+  })
+
+  it('Should call CreateStoreRepository if CheckStoreByNameAndOwnerRepository returns null', async () => {
+    const { sut, checkStoreByNameAndOwnerRepositorySpy, createStoreRepositorySpy } = makeSut()
+    checkStoreByNameAndOwnerRepositorySpy.result = null
+    const validCNAB1 = (mockCNAB())
+    const validCNAB2 = (mockCNAB())
+    const store1 = { owner: validCNAB1.owner, storeName: validCNAB1.storeName }
+    const store2 = { owner: validCNAB2.owner, storeName: validCNAB2.storeName }
+    await sut.persist([validCNAB1, validCNAB2])
+    expect(createStoreRepositorySpy.data[0]).toEqual(store1)
+    expect(createStoreRepositorySpy.data[1]).toEqual(store2)
+    expect(createStoreRepositorySpy.callsCount).toBe(2)
   })
 
   it('Should call SaveTransactionRepository with correct values', async () => {
