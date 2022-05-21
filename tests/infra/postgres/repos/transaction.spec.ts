@@ -62,5 +62,11 @@ describe('PgTransactionRepository', () => {
       const success = await sut.checkStore({ owner: storeParams.owner, storeName: storeParams.name })
       expect(success).toEqual({ id: 1 })
     })
+
+    it('Should return null if store does not exist', async () => {
+      const storeParams = mockStoreParams()
+      const success = await sut.checkStore({ owner: storeParams.owner, storeName: storeParams.name })
+      expect(success).toEqual(null)
+    })
   })
 })
