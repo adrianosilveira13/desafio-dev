@@ -25,7 +25,6 @@ describe('PgTransactionRepository', () => {
       type: 'postgres',
       entities: [PgTransactionType, PgTransaction, PgStore]
     })
-    console.log(connection)
     await connection.synchronize()
     backup = db.backup()
     pgTypesRepo = getRepository(PgTransactionType)
@@ -79,9 +78,11 @@ describe('PgTransactionRepository', () => {
   })
 
   describe('save()', () => {
-    it('Should return an true on success', async () => {
-      mockCNAB()
-      expect(true).toEqual(true)
+    it('Should return true on success', async () => {
+      const cnab = mockCNAB()
+      const validStore = await pgStoreRepo.save(mockStoreParams())
+      const success = await sut.save({ cnab, storeId: validStore.id })
+      expect(success).toBe(true)
     })
   })
 })
