@@ -31,8 +31,8 @@ export class PgTransactionRepository implements CheckTransactionTypeRepository, 
       amount: cnab.amount,
       card: cnab.card,
       document: cnab.document,
-      storeId,
-      transactionTypeId: cnab.type
+      store_id: storeId,
+      transaction_type_id: cnab.type
     }
     const result = await transactionRepo.save(validCnab)
     return !!result

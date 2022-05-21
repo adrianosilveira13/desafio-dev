@@ -1,10 +1,10 @@
 import { getRepository, MigrationInterface, QueryRunner } from 'typeorm'
 import { PgTransactionType } from '../entities'
 
-export class transactionTypeSeeding1653170893476 implements MigrationInterface {
+export class transactionTypeSeedingData21653172396660 implements MigrationInterface {
   public async up (queryRunner: QueryRunner): Promise<void> {
-    const transactionRepo = getRepository(PgTransactionType)
-    await transactionRepo.save([
+    const typeRepo = getRepository(PgTransactionType)
+    await typeRepo.save([
       { description: 'Débito', type: 'Entrada', signal: '+' },
       { description: 'Boleto', type: 'Saída', signal: '-' },
       { description: 'Financiamento', type: 'Saída', signal: '-' },

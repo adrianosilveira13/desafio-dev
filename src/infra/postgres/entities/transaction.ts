@@ -20,10 +20,16 @@ export class PgTransaction {
     card: string
 
   @ManyToOne(() => PgStore, (store) => store.transactions)
-  @JoinColumn({ name: 'storeId' })
-    store: PgStore
+  @JoinColumn({ name: 'store_id' })
+  public store: PgStore
+
+  @Column()
+  public store_id: number
 
   @ManyToOne(() => PgTransactionType, (transactionType) => transactionType.transactions)
-  @JoinColumn({ name: 'transactionTypeId' })
-    transactionType: PgTransactionType
+  @JoinColumn({ name: 'transaction_type_id' })
+  public transactionType: PgTransactionType
+
+  @Column()
+  public transaction_type_id: number
 }
