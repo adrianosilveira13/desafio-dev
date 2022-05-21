@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { PgTransaction } from './transaction'
 
-@Entity({ name: 'stores' })
+@Entity({ name: 'store' })
 export class PgStore {
   @PrimaryGeneratedColumn('increment')
     id: number
