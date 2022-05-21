@@ -5,5 +5,14 @@
   "username": "mfbupqzp",
   "password": "Ts7VpH7jLU0NVTHnjyei-I2hDUuOWpPi",
   "database": "mfbupqzp",
-  "entities": ["dist/infra/postgres/entities/index.js"]
+  "entities": [
+    "dist/infra/postgres/entities/**/*.js"
+  ],
+  "migrations": [
+    "dist/infra/postgres/migrations/**/*.js"
+  ],
+  "cli": {
+    "entitiesDir": "src/infra/postgres/entities",
+    "migrationsDir": "src/infra/postgres/migrations"
+  }
 }

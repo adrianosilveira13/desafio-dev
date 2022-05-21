@@ -5,15 +5,15 @@ export class PgUser {
   @PrimaryGeneratedColumn('increment')
     id!: number
 
-  @Column()
+  @Column({ type: 'varchar', length: 20 })
     name: string
 
-  @Column({ name: 'email' })
+  @Column({ name: 'email', type: 'varchar', length: '255' })
     email: string
 
-  @Column()
+  @Column({ type: 'varchar', length: '300' })
     password: string
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: '400', nullable: true })
     accesstoken?: string
 }
