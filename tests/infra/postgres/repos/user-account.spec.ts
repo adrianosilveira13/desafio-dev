@@ -92,4 +92,30 @@ describe('PgUserAccountRepository', () => {
       expect(account.accesstoken).toBe(accesstoken)
     })
   })
+
+  describe('loadByToken()', () => {
+    let name = faker.name.findName()
+    let email = faker.internet.email()
+    let password = faker.internet.password()
+    let accesstoken = faker.random.alphaNumeric()
+
+    beforeEach(() => {
+      name = faker.name.findName()
+      email = faker.internet.email()
+      password = faker.internet.password()
+      accesstoken = faker.random.alphaNumeric()
+    })
+
+    it('Should return an account id on loadByToken', async () => {
+      await pgUserRepo.save({
+        name,
+        email,
+        password,
+        accesstoken
+      })
+      const account = await sut.loadByToken(accesstoken)
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+    })
+  })
 })
