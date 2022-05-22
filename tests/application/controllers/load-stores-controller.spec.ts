@@ -27,6 +27,6 @@ describe('LoadStores Controller', () => {
     const { sut, loadStoresSpy } = makeSut()
     loadStoresSpy.result = null
     const response = await sut.handle()
-    expect(response).toEqual(notFound(new Error()))
+    expect(response).toEqual(notFound())
   })
 })

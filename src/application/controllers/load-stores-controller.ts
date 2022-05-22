@@ -7,7 +7,7 @@ export class LoadStoresController implements Controller {
 
   async handle (): Promise<HttpResponse> {
     const stores = await this.loadStores.load()
-    if (stores === null) return notFound(new Error())
+    if (stores === null) return notFound()
     return ok(stores)
   }
 }
