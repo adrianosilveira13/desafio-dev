@@ -5,7 +5,8 @@ export class LoadStoresService implements LoadStores {
   constructor (private readonly loadStoresRepository: LoadStoresRepository) {}
 
   async load (): Promise<LoadStores.Result> {
-    await this.loadStoresRepository.load()
-    return Promise.resolve(null)
+    const stores = await this.loadStoresRepository.load()
+    if (!stores) return null
+    return stores
   }
 }
