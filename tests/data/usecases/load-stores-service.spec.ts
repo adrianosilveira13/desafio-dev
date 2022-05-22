@@ -1,18 +1,23 @@
 import { LoadStoresService } from '@/data/services'
-import { LoadStoresRepository } from '@/data/protocols/db/stores'
+import { LoadStoresRepositorySpy } from '../mocks'
+
+type SutTypes = {
+  sut: LoadStoresService
+  loadStoresRepositorySpy: LoadStoresRepositorySpy
+}
+
+const makeSut = (): SutTypes => {
+  const loadStoresRepositorySpy = new LoadStoresRepositorySpy()
+  const sut = new LoadStoresService(loadStoresRepositorySpy)
+  return {
+    sut,
+    loadStoresRepositorySpy
+  }
+}
 
 describe('LoadStoresService Usecase', () => {
   it('Should call LoadStoresRepository', async () => {
-    class LoadStoresRepositorySpy implements LoadStoresRepository {
-      callsCount = 0
-
-      async load (): Promise<LoadStoresRepository.Result> {
-        this.callsCount++
-        return Promise.resolve(null)
-      }
-    }
-    const loadStoresRepositorySpy = new LoadStoresRepositorySpy()
-    const sut = new LoadStoresService(loadStoresRepositorySpy)
+    const { sut, loadStoresRepositorySpy } = makeSut()
     await sut.load()
     expect(loadStoresRepositorySpy.callsCount).toBe(1)
   })
