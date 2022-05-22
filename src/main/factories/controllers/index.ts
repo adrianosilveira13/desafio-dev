@@ -1,3 +1,4 @@
+export * from './load-stores-controller-factory.ts'
 export * from './login-controller-factory'
 export * from './signup-controller-factory'
 export * from './signup-validation-factory'
