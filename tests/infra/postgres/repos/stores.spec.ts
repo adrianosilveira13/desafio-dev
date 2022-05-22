@@ -55,5 +55,10 @@ describe('PgTransactionRepository', () => {
         owner: storeParams2.owner
       }])
     })
+
+    it('Should return null if there is no stores', async () => {
+      const stores = await sut.load()
+      expect(stores).toBeNull()
+    })
   })
 })
