@@ -1,4 +1,5 @@
 export * from './add-account'
 export * from './authentication'
 export * from './load-stores'
+export * from './load-account-by-token'
 export * from './persist-cnab'
