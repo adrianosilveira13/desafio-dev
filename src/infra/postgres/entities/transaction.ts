@@ -7,7 +7,7 @@ export class PgTransaction {
   @PrimaryGeneratedColumn('increment')
     id: number
 
-  @Column({ type: 'date', nullable: false })
+  @Column({ type: 'timestamptz', nullable: false })
     date: Date
 
   @Column({ type: 'float', nullable: false })
