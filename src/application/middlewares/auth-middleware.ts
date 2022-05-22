@@ -5,8 +5,7 @@ import { LoadAccountByToken } from '@/domain/usecases'
 
 export class AuthMiddleware implements Middleware {
   constructor (
-    private readonly loadAccountByToken: LoadAccountByToken,
-    private readonly role?: string
+    private readonly loadAccountByToken: LoadAccountByToken
   ) {}
 
   async handle (request: AuthMiddleware.Request): Promise<HttpResponse> {
