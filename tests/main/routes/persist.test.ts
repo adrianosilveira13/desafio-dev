@@ -110,12 +110,5 @@ describe('Persist Routes', () => {
       expect(response.statusCode).toBe(400)
       expect(response.body.error).toBe('Missing param: file')
     })
-
-    it('Should return 403 if no accesstoken is provided', async () => {
-      const response = await request(app)
-        .get('/api/stores')
-      expect(response.statusCode).toBe(403)
-      expect(response.body).toEqual({ error: new AccessDeniedError().message })
-    })
   })
 })
