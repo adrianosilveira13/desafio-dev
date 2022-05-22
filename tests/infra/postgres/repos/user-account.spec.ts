@@ -117,5 +117,10 @@ describe('PgUserAccountRepository', () => {
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
     })
+
+    it('Should return null if loadByToken fails', async () => {
+      const account = await sut.loadByToken(accesstoken)
+      expect(account).toBeFalsy()
+    })
   })
 })
