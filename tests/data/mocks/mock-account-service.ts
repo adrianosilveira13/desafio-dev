@@ -51,7 +51,7 @@ export class LoadAccountByTokenRepositorySpy implements LoadAccountByTokenReposi
   token: string
   role: string
   result = {
-    id: faker.datatype.uuid()
+    id: faker.datatype.number()
   }
 
   async loadByToken (token: string, role?: string): Promise<LoadAccountByTokenRepository.Result> {

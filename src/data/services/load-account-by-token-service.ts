@@ -8,7 +8,7 @@ export class LoadAccountByTokenService implements LoadAccountByToken {
     private readonly loadAccountByToken: LoadAccountByTokenRepository
   ) {}
 
-  async load (accessToken: string, role?: string): Promise<LoadAccountByToken.Result> {
+  async load (accessToken: string): Promise<LoadAccountByToken.Result> {
     let token: string
     try {
       token = await this.decrypter.decrypt(accessToken)
@@ -16,7 +16,7 @@ export class LoadAccountByTokenService implements LoadAccountByToken {
       return null
     }
     if (token) {
-      const account = await this.loadAccountByToken.loadByToken(accessToken, role)
+      const account = await this.loadAccountByToken.loadByToken(accessToken)
       if (account) {
         return account
       }
