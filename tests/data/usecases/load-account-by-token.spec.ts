@@ -22,7 +22,7 @@ const makeSut = (): SutTypes => {
 let token: string
 let role: string
 
-describe('LoadAccountByTokenService Usecase', () => {
+describe('LoadAccountByToken Usecase', () => {
   beforeEach(() => {
     token = faker.random.alphaNumeric()
     role = faker.random.word()
@@ -32,5 +32,19 @@ describe('LoadAccountByTokenService Usecase', () => {
     const { sut, decrypterSpy } = makeSut()
     await sut.load(token, role)
     expect(decrypterSpy.ciphertext).toBe(token)
+  })
+
+  it('Should return null if Decrypter returns null', async () => {
+    const { sut, decrypterSpy } = makeSut()
+    decrypterSpy.plaintext = null
+    const account = await sut.load(token, role)
+    expect(account).toBeNull()
+  })
+
+  it('Should call LoadAccountByTokenRepository with correct values', async () => {
+    const { sut, loadAccountByTokenRepositorySpy } = makeSut()
+    await sut.load(token, role)
+    expect(loadAccountByTokenRepositorySpy.token).toBe(token)
+    expect(loadAccountByTokenRepositorySpy.role).toBe(role)
   })
 })
