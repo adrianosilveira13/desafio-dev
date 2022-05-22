@@ -1,6 +1,7 @@
 import faker from '@faker-js/faker'
 import { DecrypterSpy, LoadAccountByTokenRepositorySpy } from '@/tests/data/mocks'
 import { LoadAccountByTokenService } from '@/data/services'
+import { throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: LoadAccountByTokenService
@@ -59,5 +60,12 @@ describe('LoadAccountByToken Usecase', () => {
     const { sut, loadAccountByTokenRepositorySpy } = makeSut()
     const account = await sut.load(token, role)
     expect(account).toEqual(loadAccountByTokenRepositorySpy.result)
+  })
+
+  it('Should throw if Decrypter throw', async () => {
+    const { sut, decrypterSpy } = makeSut()
+    jest.spyOn(decrypterSpy, 'decrypt').mockImplementationOnce(throwError)
+    const account = await sut.load(token, role)
+    expect(account).toBeNull()
   })
 })
