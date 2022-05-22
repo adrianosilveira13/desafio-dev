@@ -68,4 +68,11 @@ describe('LoadAccountByToken Usecase', () => {
     const account = await sut.load(token, role)
     expect(account).toBeNull()
   })
+
+  it('Should throw if LoadAccountByTokenRepository throw', async () => {
+    const { sut, loadAccountByTokenRepositorySpy } = makeSut()
+    jest.spyOn(loadAccountByTokenRepositorySpy, 'loadByToken').mockImplementationOnce(throwError)
+    const promise = sut.load(token, role)
+    await expect(promise).rejects.toThrow()
+  })
 })
