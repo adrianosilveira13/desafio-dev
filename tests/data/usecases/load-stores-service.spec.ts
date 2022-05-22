@@ -28,4 +28,10 @@ describe('LoadStoresService Usecase', () => {
     const response = await sut.load()
     expect(response).toBeNull()
   })
+
+  it('Should return an array of stores on success', async () => {
+    const { sut, loadStoresRepositorySpy } = makeSut()
+    const response = await sut.load()
+    expect(response).toEqual(loadStoresRepositorySpy.result)
+  })
 })
