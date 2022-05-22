@@ -1,0 +1,5 @@
+describe('LoadStoresService Usecase', () => {
+  it('', () => {
+
+  })
+})

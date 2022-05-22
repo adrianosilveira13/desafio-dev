@@ -1,6 +1,6 @@
 import { LoadStoresController } from '@/application/controllers'
 import { LoadStoresSpy } from '@/tests/application/mocks'
-import { notFound, serverError } from '@/application/helpers'
+import { notFound, ok, serverError } from '@/application/helpers'
 
 type SutTypes = {
   sut: LoadStoresController
@@ -35,5 +35,11 @@ describe('LoadStores Controller', () => {
     jest.spyOn(loadStoresSpy, 'load').mockRejectedValueOnce(new Error())
     const response = await sut.handle()
     expect(response).toEqual(serverError(new Error()))
+  })
+
+  it('Should return 200 with stores on success', async () => {
+    const { sut, loadStoresSpy } = makeSut()
+    const response = await sut.handle()
+    expect(response).toEqual(ok(loadStoresSpy.result))
   })
 })
