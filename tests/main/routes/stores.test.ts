@@ -1,3 +1,4 @@
+import { NotFoundError } from '@/application/errors'
 import { PgStore, PgTransaction, PgTransactionType } from '@/infra/postgres/entities'
 import { app } from '@/main/config/app'
 import { mockStoreParams } from '@/tests/domain/mocks'
@@ -56,5 +57,12 @@ describe('Login Routes', () => {
         owner: fakeStore2.owner
       }])
     })
+  })
+
+  it('Should return 404 with custom error', async () => {
+    const response = await request(app)
+      .get('/api/stores')
+    expect(response.statusCode).toBe(404)
+    expect(response.body).toEqual({ error: new NotFoundError().message })
   })
 })
