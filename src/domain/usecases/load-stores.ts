@@ -5,5 +5,5 @@ export interface LoadStores {
 }
 
 export namespace LoadStores {
-  export type Result = Store[]
+  export type Result = Store[] | null
 }
