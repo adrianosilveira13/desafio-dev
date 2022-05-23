@@ -1,4 +1,5 @@
 import { CheckStoreByNameAndOwnerRepository, CheckTransactionTypeRepository, CreateStoreRepository, LoadTransactionsByStoreRepository, SaveTransactionRepository } from '@/data/protocols/db'
+import { Transaction } from '@/domain/models'
 import { LoadTransactionByStore } from '@/domain/usecases'
 import { PgStore, PgTransaction, PgTransactionType } from '@/infra/postgres/entities'
 import { getRepository } from 'typeorm'
@@ -41,7 +42,7 @@ export class PgTransactionRepository implements CheckTransactionTypeRepository, 
 
   async loadTransactions (params: LoadTransactionByStore.Params): Promise<LoadTransactionByStore.Result> {
     const storesRepo = getRepository(PgStore)
-    const storesTransactions = await storesRepo
+    const storesTransactions: Transaction[] = await storesRepo
       .query(`
         SELECT
           s.name AS storename,
@@ -58,6 +59,19 @@ export class PgTransactionRepository implements CheckTransactionTypeRepository, 
         WHERE
           s.id = ${params.storeId};
       `)
-    return storesTransactions
+    if (storesTransactions.length === 0) return null
+    let total = 0
+    for (const transaction of storesTransactions) {
+      if (transaction.signal === '+') {
+        total += transaction.amount
+      } else if (transaction.signal === '-') {
+        total -= transaction.amount
+      }
+    }
+    const transactionsWithTotal = {
+      transactions: storesTransactions,
+      total
+    }
+    return transactionsWithTotal
   }
 }

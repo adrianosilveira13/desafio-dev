@@ -1,4 +1,5 @@
 export * from './load-stores-controller-factory.ts'
+export * from './load-transactions-by-store-id-factory'
 export * from './login-controller-factory'
 export * from './signup-controller-factory'
 export * from './signup-validation-factory'

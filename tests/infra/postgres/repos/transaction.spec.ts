@@ -3,6 +3,7 @@ import { PgTransactionRepository } from '@/infra/postgres/repos'
 import { PgTransactionType, PgTransaction, PgStore } from '@/infra/postgres/entities'
 import { IBackup, newDb } from 'pg-mem'
 import { getRepository, Repository } from 'typeorm'
+import faker from '@faker-js/faker'
 
 describe('PgTransactionRepository', () => {
   let sut: PgTransactionRepository
@@ -116,6 +117,11 @@ describe('PgTransactionRepository', () => {
       }])
       const result = await sut.loadTransactions({ storeId: validStore.id })
       expect(result).toBeTruthy()
+    })
+
+    it('Should return null if no Transaction were found', async () => {
+      const result = await sut.loadTransactions({ storeId: faker.datatype.number() })
+      expect(result).toBeNull()
     })
   })
 })
