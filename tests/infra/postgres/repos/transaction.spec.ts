@@ -8,6 +8,7 @@ describe('PgTransactionRepository', () => {
   let sut: PgTransactionRepository
   let pgTypesRepo: Repository<PgTransactionType>
   let pgStoreRepo: Repository<PgStore>
+  let pgTransactionRepo: Repository<PgTransaction>
   let connection: any
   let backup: IBackup
 
@@ -29,6 +30,7 @@ describe('PgTransactionRepository', () => {
     backup = db.backup()
     pgTypesRepo = getRepository(PgTransactionType)
     pgStoreRepo = getRepository(PgStore)
+    pgTransactionRepo = getRepository(PgTransaction)
   })
 
   afterAll(async () => {
@@ -85,6 +87,24 @@ describe('PgTransactionRepository', () => {
       cnab.type = transactionType.id
       const success = await sut.save({ cnab, storeId: validStore.id })
       expect(success).toBe(true)
+    })
+  })
+
+  describe('loadTransactions()', () => {
+    it('Should return an array of Transaction on success', async () => {
+      const cnab = mockCNAB()
+      const validStore = await pgStoreRepo.save(mockStoreParams())
+      const transactionType = await pgTypesRepo.save(mockTransactionTypeParams())
+      const transactions = await pgTransactionRepo.save({
+        amount: cnab.amount,
+        document: cnab.document,
+        date: cnab.date,
+        card: cnab.card,
+        store_id: validStore.id,
+        transaction_type_id: transactionType.id
+      })
+      await sut.loadTransactions({ storeId: validStore.id })
+      expect(transactions).toBeTruthy()
     })
   })
 })

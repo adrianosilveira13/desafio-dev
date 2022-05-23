@@ -25,4 +25,23 @@ describe('LoadTransactionByStoreService Usecase', () => {
     await sut.loadTransactions(storeId)
     expect(loadTransactionsByStoreRepositorySpy.input).toEqual(storeId)
   })
+
+  it('Should return an array of transactions on success', async () => {
+    const { sut } = makeSut()
+    const storeId = {
+      storeId: faker.datatype.number()
+    }
+    const response = await sut.loadTransactions(storeId)
+    expect(response).toBeTruthy()
+  })
+
+  it('Should return null if LoadTransactionsByStoreRepository returns null', async () => {
+    const { sut, loadTransactionsByStoreRepositorySpy } = makeSut()
+    loadTransactionsByStoreRepositorySpy.result = null
+    const storeId = {
+      storeId: faker.datatype.number()
+    }
+    const response = await sut.loadTransactions(storeId)
+    expect(response).toBeNull()
+  })
 })

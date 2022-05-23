@@ -18,5 +18,7 @@ export const mockTransaction = (): Transaction => ({
   document: faker.random.word(),
   card: faker.datatype.uuid(),
   owner: faker.name.findName(),
-  storeName: faker.name.findName()
+  storeName: faker.name.findName(),
+  description: faker.random.words(),
+  signal: '+'
 })
