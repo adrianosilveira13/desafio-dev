@@ -1,12 +1,14 @@
 import { mockTransaction } from '@/tests/domain/mocks'
 import { LoadTransactionsByStoreRepository } from '@/data/protocols/db'
-import { Transaction } from '@/domain/models'
 
 export class LoadTransactionsByStoreRepositorySpy implements LoadTransactionsByStoreRepository {
   input: LoadTransactionsByStoreRepository.Params
-  result = [mockTransaction()]
+  result = {
+    transactions: [mockTransaction()],
+    total: 0
+  }
 
-  async loadTransactions (params: LoadTransactionsByStoreRepository.Params): Promise<Transaction[]> {
+  async loadTransactions (params: LoadTransactionsByStoreRepository.Params): Promise<LoadTransactionsByStoreRepository.Result> {
     this.input = params
     return this.result
   }

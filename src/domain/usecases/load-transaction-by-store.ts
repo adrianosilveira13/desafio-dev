@@ -8,5 +8,8 @@ export namespace LoadTransactionByStore {
   export type Params = {
     storeId: number
   }
-  export type Result = Transaction[] | null
+  export type Result = {
+    transactions: Transaction[],
+    total: number
+  } | null
 }

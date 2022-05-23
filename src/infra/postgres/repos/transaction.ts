@@ -1,5 +1,4 @@
 import { CheckStoreByNameAndOwnerRepository, CheckTransactionTypeRepository, CreateStoreRepository, LoadTransactionsByStoreRepository, SaveTransactionRepository } from '@/data/protocols/db'
-import { Transaction } from '@/domain/models'
 import { LoadTransactionByStore } from '@/domain/usecases'
 import { PgStore, PgTransaction, PgTransactionType } from '@/infra/postgres/entities'
 import { getRepository } from 'typeorm'
@@ -40,7 +39,7 @@ export class PgTransactionRepository implements CheckTransactionTypeRepository, 
     return !!result
   }
 
-  async loadTransactions (params: LoadTransactionByStore.Params): Promise<Transaction[]> {
+  async loadTransactions (params: LoadTransactionByStore.Params): Promise<LoadTransactionByStore.Result> {
     const storesRepo = getRepository(PgStore)
     const storesTransactions = await storesRepo
       .query(`
