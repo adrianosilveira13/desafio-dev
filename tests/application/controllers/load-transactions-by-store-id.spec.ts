@@ -1,6 +1,6 @@
 import { LoadTransactionByStoreController } from '@/application/controllers'
 import { LoadTransactionByStoreSpy } from '@/tests/application/mocks'
-import { notFound } from '@/application/helpers'
+import { notFound, serverError } from '@/application/helpers'
 import faker from '@faker-js/faker'
 
 const mockRequest = (): LoadTransactionByStoreController.Params => ({
