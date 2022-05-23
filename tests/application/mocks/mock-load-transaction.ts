@@ -1,11 +1,13 @@
 import { Transaction } from '@/domain/models'
 import { LoadTransactionByStore } from '@/domain/usecases'
+import { mockTransaction } from '@/tests/domain/mocks'
 
 export class LoadTransactionByStoreSpy implements LoadTransactionByStore {
   input: LoadTransactionByStore.Params | null
+  result = [mockTransaction()]
 
   async loadTransaction (params: LoadTransactionByStore.Params): Promise<Transaction[]> {
     this.input = params
-    return Promise.resolve(null)
+    return this.result
   }
 }
