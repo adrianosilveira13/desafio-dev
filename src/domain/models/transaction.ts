@@ -6,4 +6,6 @@ export type Transaction = {
   card: string
   owner: string
   storeName: string
+  description: string
+  signal: string
 }

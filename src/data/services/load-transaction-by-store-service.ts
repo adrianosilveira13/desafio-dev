@@ -6,7 +6,8 @@ export class LoadTransactionByStoreService implements LoadTransactionByStore {
   constructor (private readonly loadTransactionsByStoreRepository: LoadTransactionsByStoreRepository) {}
 
   async loadTransactions (params: LoadTransactionByStore.Params): Promise<Transaction[]> {
-    await this.loadTransactionsByStoreRepository.loadTransactions(params)
-    return Promise.resolve(null)
+    const transactions = await this.loadTransactionsByStoreRepository.loadTransactions(params)
+    if (!transactions) return null
+    return transactions
   }
 }
