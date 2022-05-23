@@ -91,20 +91,31 @@ describe('PgTransactionRepository', () => {
   })
 
   describe('loadTransactions()', () => {
-    it('Should return an array of Transaction on success', async () => {
+    it('Should return an array of LoadByStore on success', async () => {
       const cnab = mockCNAB()
+      const cnab2 = mockCNAB()
       const validStore = await pgStoreRepo.save(mockStoreParams())
       const transactionType = await pgTypesRepo.save(mockTransactionTypeParams())
-      const transactions = await pgTransactionRepo.save({
+      const transactionNegative = mockTransactionTypeParams()
+      transactionNegative.signal = '-'
+      const transactionType2 = await pgTypesRepo.save(transactionNegative)
+      await pgTransactionRepo.save([{
         amount: cnab.amount,
         document: cnab.document,
         date: cnab.date,
         card: cnab.card,
         store_id: validStore.id,
         transaction_type_id: transactionType.id
-      })
-      await sut.loadTransactions({ storeId: validStore.id })
-      expect(transactions).toBeTruthy()
+      }, {
+        amount: cnab2.amount,
+        document: cnab2.document,
+        date: cnab2.date,
+        card: cnab2.card,
+        store_id: validStore.id,
+        transaction_type_id: transactionType2.id
+      }])
+      const result = await sut.loadTransactions({ storeId: validStore.id })
+      expect(result).toBeTruthy()
     })
   })
 })
