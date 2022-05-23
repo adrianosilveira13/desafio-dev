@@ -44,7 +44,7 @@ describe('LoadTransactionByStoreController', () => {
 
   it('Should return 500 if LoadTransactionByStore throws', async () => {
     const { sut, loadTransactionByStoreSpy } = makeSut()
-    jest.spyOn(loadTransactionByStoreSpy, 'loadTransaction').mockRejectedValueOnce(new Error())
+    jest.spyOn(loadTransactionByStoreSpy, 'loadTransactions').mockRejectedValueOnce(new Error())
     const response = await sut.handle(mockRequest())
     expect(response).toEqual(serverError(new Error()))
   })

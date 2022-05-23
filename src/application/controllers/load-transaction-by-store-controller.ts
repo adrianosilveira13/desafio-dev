@@ -7,7 +7,7 @@ export class LoadTransactionByStoreController implements Controller {
 
   async handle (request: LoadTransactionByStoreController.Params): Promise<HttpResponse> {
     try {
-      const transaction = await this.loadTransactionByStore.loadTransaction(request)
+      const transaction = await this.loadTransactionByStore.loadTransactions(request)
       if (!transaction) return notFound()
       return ok(transaction)
     } catch (error) {

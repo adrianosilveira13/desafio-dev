@@ -1,7 +1,7 @@
 import { Transaction } from '@/domain/models'
 
 export interface LoadTransactionByStore {
-  loadTransaction(params: LoadTransactionByStore.Params): Promise<LoadTransactionByStore.Result>;
+  loadTransactions(params: LoadTransactionByStore.Params): Promise<LoadTransactionByStore.Result>;
 }
 
 export namespace LoadTransactionByStore {

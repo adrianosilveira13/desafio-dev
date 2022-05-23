@@ -6,7 +6,7 @@ export class LoadTransactionByStoreSpy implements LoadTransactionByStore {
   input: LoadTransactionByStore.Params | null
   result = [mockTransaction()]
 
-  async loadTransaction (params: LoadTransactionByStore.Params): Promise<Transaction[]> {
+  async loadTransactions (params: LoadTransactionByStore.Params): Promise<Transaction[]> {
     this.input = params
     return this.result
   }
