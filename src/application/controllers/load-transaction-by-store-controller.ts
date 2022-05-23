@@ -1,12 +1,18 @@
 import { Controller, HttpResponse } from '@/application/protocols'
 import { LoadTransactionByStore } from '@/domain/usecases'
+import { notFound, ok, serverError } from '../helpers'
 
 export class LoadTransactionByStoreController implements Controller {
   constructor (private readonly loadTransactionByStore: LoadTransactionByStore) {}
 
   async handle (request: LoadTransactionByStoreController.Params): Promise<HttpResponse> {
-    await this.loadTransactionByStore.loadTransaction(request)
-    return Promise.resolve(null)
+    try {
+      const transaction = await this.loadTransactionByStore.loadTransaction(request)
+      if (!transaction) return notFound()
+      return ok(transaction)
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
 
