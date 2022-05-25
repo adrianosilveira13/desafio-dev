@@ -1,8 +1,9 @@
-import { loginPath, signUpPath, storesPath, transactionsPath } from './paths/'
+import { loginPath, signUpPath, storesPath, transactionsPath, persistPath } from './paths/'
 
 export default {
   '/login': loginPath,
   '/signup': signUpPath,
   '/stores': storesPath,
-  '/transactions/{storeId}': transactionsPath
+  '/transactions/{storeId}': transactionsPath,
+  '/persist': persistPath
 }
