@@ -78,6 +78,13 @@ describe('PgTransactionRepository', () => {
       const success = await sut.createStore({ owner: storeParams.owner, storeName: storeParams.name })
       expect(success).toEqual({ id: 1 })
     })
+
+    it('Should return null if CreateStoreRepository returns null', async () => {
+      const storeParams = mockStoreParams()
+      jest.spyOn(pgStoreRepo, 'save').mockImplementationOnce(() => null)
+      const success = await sut.createStore({ owner: storeParams.owner, storeName: storeParams.name })
+      expect(success).toBeNull()
+    })
   })
 
   describe('save()', () => {
