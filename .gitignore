@@ -4,4 +4,3 @@ coverage
 data
 !src/data
 !tests/data
-ormconfig.js
