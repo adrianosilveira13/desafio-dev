@@ -1,4 +1,4 @@
-import { AddAccount, Authentication } from '@/domain/usecases'
+import { AddAccount, Authentication, LoadAccountByToken } from '@/domain/usecases'
 import faker from '@faker-js/faker'
 
 export class AddAccountSpy implements AddAccount {
@@ -21,5 +21,17 @@ export class AuthenticationSpy implements Authentication {
   async auth (authenticationParams: Authentication.Params): Promise<Authentication.Result> {
     this.authenticationParams = authenticationParams
     return Promise.resolve(this.authenticationModel)
+  }
+}
+
+export class LoadAccountByTokenSpy implements LoadAccountByToken {
+  result = { id: faker.datatype.number() }
+  accessToken: string
+  role: string
+
+  async load (accessToken: string, role?: string): Promise<LoadAccountByToken.Result> {
+    this.accessToken = accessToken
+    this.role = role
+    return Promise.resolve(this.result)
   }
 }
