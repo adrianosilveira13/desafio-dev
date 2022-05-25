@@ -1,10 +1,10 @@
 module.exports = {
   type: 'postgres',
-  host: process.env.PGHOST || 'kesavan.db.elephantsql.com',
+  host: process.env.PGHOST || 'postgres',
   port: 5432,
-  username: process.env.PGUSER || 'mfbupqzp',
-  password: process.env.PGPASS || 'Ts7VpH7jLU0NVTHnjyei-I2hDUuOWpPi',
-  database: process.env.PGDBNAME || 'mfbupqzp',
+  username: process.env.PGUSER || 'postgres',
+  password: process.env.PGPASS || 'postgres',
+  database: process.env.PGDBNAME || 'desafio',
   entities: [
     'dist/infra/postgres/entities/**/*.js'
   ],

@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: desafio
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - postgres
+  api:
+    image: node:16
+    working_dir: /usr/src/desafio-api
+    restart: always
+    command: bash -c "npm install --only=prod && npx typeorm migration:run && npm run debug"
+    environment:
+      - PGHOST=db
+    volumes:
+      - ./dist/:/usr/src/desafio-api/dist
+      - ./package.json:/usr/src/desafio-api/package.json
+      - ./ormconfig.js:/usr/src/desafio-api/ormconfig.js
+    ports:
+      - "8080:8080"
+      - "9222:9222"
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
