@@ -67,4 +67,4 @@ npm run up
 1. [SignUp](./docs/signup.md)
 2. [Login](./docs/login.md)
 3. [Stores](./docs/stores.md)
-4. [Transactions](./docs/load-surveys.md)
+4. [Transactions](./docs/transactions.md)
